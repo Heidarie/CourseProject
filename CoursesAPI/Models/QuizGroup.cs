@@ -1,6 +1,6 @@
 ﻿namespace CoursesAPI.Models
 {
-    public class FlashcardsGroup
+    public class QuizGroup
     {
         [Key]
         [Column(TypeName = "uniqueidentifier")]
@@ -11,7 +11,7 @@
         public string Author { get; set; }
         [Column(TypeName = "image")]
         public string Image { get; set; }
-        public ICollection<Flashcard> Flashcards { get; set; }
+        public ICollection<Quiz> Quizzes { get; set; }
 
     }
 }

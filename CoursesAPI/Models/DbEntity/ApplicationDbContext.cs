@@ -15,6 +15,9 @@ namespace CoursesAPI.Models.DbEntity
         public DbSet<FlashcardsGroup> FlashcardsGroups { get; set; }
         public DbSet<Flashcard> Flashcards { get; set; }
         public DbSet<UserTraining> UserTrainings { get; set; }
+        public DbSet<Quiz> Quizzes { get; set; }
+        public DbSet<QuizGroup> QuizGroups { get; set; }
+        public DbSet<TrainingDetails> TrainingsDetails { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -26,6 +29,24 @@ namespace CoursesAPI.Models.DbEntity
             builder
                 .Entity<UserTraining>()
                 .HasNoKey();
+
+            builder
+                .Entity<Training>()
+                .HasMany(c => c.TrainingDetails)
+                .WithOne(e => e.Training)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder
+                .Entity<QuizGroup>()
+                .HasMany(c => c.Quizzes)
+                .WithOne(e => e.QuizGroup)
+                .OnDelete(DeleteBehavior.Cascade);
+            
+            builder
+                .Entity<FlashcardsGroup>()
+                .HasMany(c => c.Flashcards)
+                .WithOne(e => e.FlashcardsGroup)
+                .OnDelete(DeleteBehavior.Cascade);
 
             base.OnModelCreating(builder);
         }

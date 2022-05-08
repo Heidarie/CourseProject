@@ -12,7 +12,6 @@
         public string Title { get; set; }
         [Column(TypeName = "nvarchar(1000)")]
         public string Description { get; set; }
-        [Column(TypeName = "datetime")]
-        public DateTime EventDateTime { get; set; }
+        public ICollection<TrainingDetails> TrainingDetails { get; set; }
     }
 }

@@ -8,11 +8,10 @@ namespace CoursesAPI.Models
         [Key]
         [Column(TypeName = "uniqueidentifier")]
         public Guid Id { get; set; }
-        [Column(TypeName = "nvarchar(255)")]
-        public Guid Group { get; set; }
         [Column(TypeName = "nvarchar(300)")]
         public string Key { get; set; }
         [Column(TypeName = "nvarchar(300)")]
         public string Value { get; set; }
+        public FlashcardsGroup FlashcardsGroup { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using CoursesAPI.Models.DbEntity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoursesAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220508173717_QuizzesAdded")]
+    partial class QuizzesAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,8 +30,9 @@ namespace CoursesAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("FlashcardsGroupId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Group")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Key")
                         .IsRequired()
@@ -40,8 +43,6 @@ namespace CoursesAPI.Migrations
                         .HasColumnType("nvarchar(300)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("FlashcardsGroupId");
 
                     b.ToTable("Flashcards");
                 });
@@ -86,16 +87,14 @@ namespace CoursesAPI.Migrations
                     b.Property<int>("CorrectAnswersNumber")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("GroupID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Question")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("QuizGroupId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("QuizGroupId");
 
                     b.ToTable("Quizzes");
                 });
@@ -133,6 +132,9 @@ namespace CoursesAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(1000)");
 
+                    b.Property<DateTime>("EventDateTime")
+                        .HasColumnType("datetime");
+
                     b.Property<Guid>("OwnerId")
                         .HasColumnType("uniqueidentifier");
 
@@ -147,31 +149,6 @@ namespace CoursesAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Trainings");
-                });
-
-            modelBuilder.Entity("CoursesAPI.Models.TrainingDetails", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("EventDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ParticipantsLimit")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ParticipantsRegistered")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("TrainingId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TrainingId");
-
-                    b.ToTable("TrainingsDetails");
                 });
 
             modelBuilder.Entity("CoursesAPI.Models.User", b =>
@@ -400,39 +377,6 @@ namespace CoursesAPI.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("CoursesAPI.Models.Flashcard", b =>
-                {
-                    b.HasOne("CoursesAPI.Models.FlashcardsGroup", "FlashcardsGroup")
-                        .WithMany("Flashcards")
-                        .HasForeignKey("FlashcardsGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("FlashcardsGroup");
-                });
-
-            modelBuilder.Entity("CoursesAPI.Models.Quiz", b =>
-                {
-                    b.HasOne("CoursesAPI.Models.QuizGroup", "QuizGroup")
-                        .WithMany("Quizzes")
-                        .HasForeignKey("QuizGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("QuizGroup");
-                });
-
-            modelBuilder.Entity("CoursesAPI.Models.TrainingDetails", b =>
-                {
-                    b.HasOne("CoursesAPI.Models.Training", "Training")
-                        .WithMany("TrainingDetails")
-                        .HasForeignKey("TrainingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Training");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -482,21 +426,6 @@ namespace CoursesAPI.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("CoursesAPI.Models.FlashcardsGroup", b =>
-                {
-                    b.Navigation("Flashcards");
-                });
-
-            modelBuilder.Entity("CoursesAPI.Models.QuizGroup", b =>
-                {
-                    b.Navigation("Quizzes");
-                });
-
-            modelBuilder.Entity("CoursesAPI.Models.Training", b =>
-                {
-                    b.Navigation("TrainingDetails");
                 });
 #pragma warning restore 612, 618
         }

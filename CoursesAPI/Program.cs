@@ -15,7 +15,10 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: "React",
         policy =>
         {
-            policy.WithOrigins("http://localhost:3000");
+            policy.AllowAnyHeader();
+            policy.WithOrigins("http://localhost:3000", "*");
+            policy.AllowAnyMethod();
+            policy.AllowCredentials();
         });
 });
 
@@ -37,6 +40,11 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequireDigit = false;
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequiredLength = 5;
+});
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.SameSite = SameSiteMode.None;
 });
 
 builder.Services.AddAuthentication(options =>
