@@ -73,7 +73,11 @@ namespace CoursesAPI.Controllers
                     Expiration = token.ValidTo
                 });
             }
-            return Unauthorized();
+            if(user != null)
+            {
+                return Unauthorized(new Response { Status = "Unauthorized", Message = "Błędne hasło" });
+            }
+            return Unauthorized(new Response { Status = "Unauthorized", Message = "Użytkownik nie istnieje" });
         }
 
         [HttpPost]
@@ -82,7 +86,7 @@ namespace CoursesAPI.Controllers
         {
             var userExists = await _userManager.FindByEmailAsync(model.Email);
             if (userExists != null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Taki użytkownik już istnieje!" });
 
             if(model.Role == RoleList.Admin)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "You can't register as Admin" });
@@ -97,12 +101,14 @@ namespace CoursesAPI.Controllers
             };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Błąd podczas tworzenia profilu użytkownika. Spróbuj ponownie później." });
 
             if (!await _roleManager.RoleExistsAsync(model.Role.ToString()))
                 await _roleManager.CreateAsync(new IdentityRole(model.Role.ToString()));
+            await _userManager.AddToRoleAsync(user, model.Role.ToString());
 
-            return Ok(new Response { Status = "Success", Message = "User created successfully!" });
+
+            return Ok(new Response { Status = "Success", Message = "Użytkownik został utworzony. Zaloguj się na konto." });
         }
 
         [HttpPost]
@@ -111,7 +117,7 @@ namespace CoursesAPI.Controllers
         {
             var userExists = await _userManager.FindByEmailAsync(model.Email);
             if (userExists != null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Taki użytkownik już istnieje!" });
 
             User user = new()
             {
@@ -123,7 +129,7 @@ namespace CoursesAPI.Controllers
             };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Błąd podczas tworzenia profilu użytkownika. Spróbuj ponownie później." });
 
             if (!await _roleManager.RoleExistsAsync(RoleList.Admin.ToString()))
                 await _roleManager.CreateAsync(new IdentityRole(RoleList.Admin.ToString()));
@@ -144,7 +150,7 @@ namespace CoursesAPI.Controllers
             {
                 await _userManager.AddToRoleAsync(user, RoleList.Admin.ToString());
             }
-            return Ok(new Response { Status = "Success", Message = "User created successfully!" });
+            return Ok(new Response { Status = "Success", Message = "Użytkownik został utworzony." });
         }
 
         [HttpPost]
@@ -194,9 +200,9 @@ namespace CoursesAPI.Controllers
         [Authorize]
         [HttpPost]
         [Route("revoke/{username}")]
-        public async Task<IActionResult> Revoke(string username)
+        public async Task<IActionResult> Revoke(string id)
         {
-            var user = await _userManager.FindByNameAsync(username);
+            var user = await _userManager.FindByIdAsync(id);
             if (user == null) return BadRequest("Invalid user name");
 
             user.RefreshToken = null;
