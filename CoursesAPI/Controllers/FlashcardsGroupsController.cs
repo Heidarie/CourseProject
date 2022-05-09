@@ -62,13 +62,11 @@ namespace CoursesAPI.Controllers
             return flashcardsGroup;
         }
 
-        // PUT: api/FlashcardsGroups/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         [Route("create-flashcards")]
+        [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> CreateFlashcardsGroup([FromBody] FlashcardGroupModel flashcardsGroup)
         {
-
             if (ModelState.IsValid)
             {
                 string author = await GetAuthor();
@@ -94,9 +92,15 @@ namespace CoursesAPI.Controllers
         // POST: api/FlashcardsGroups
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<FlashcardsGroup>> PostFlashcardsGroup(FlashcardsGroup flashcardsGroup)
+        public async Task<ActionResult<FlashcardsGroup>> AddFlashcardsToGroup([FromBody] FlashcardGroupModel flashcardsGroup)
         {
-            _context.FlashcardsGroups.Add(flashcardsGroup);
+
+            var group = await _context.FlashcardsGroups.FindAsync(flashcardsGroup.Id);
+            if (group == null)
+                return NotFound();
+
+            group.Flashcards = flashcardsGroup.Flashcards.Select(x => new Flashcard(x, group)).ToList();
+
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetFlashcardsGroup", new { id = flashcardsGroup.Id }, flashcardsGroup);
