@@ -41,10 +41,6 @@ namespace CoursesAPI.Controllers
         public async Task<ActionResult<IEnumerable<FlashcardGroupModel>>> GetFlashcardsGroups()
         {
             List<FlashcardsGroup> dbFlashcardsGroups = await _context.FlashcardsGroups.ToListAsync();
-            foreach(var group in dbFlashcardsGroups)
-            {
-                group.Flashcards = await _context.Flashcards.Where(x => x.FlashcardsGroup == group ).ToListAsync();
-            }
             List<FlashcardGroupModel> flashcardGroups = dbFlashcardsGroups.Select(e => new FlashcardGroupModel(e)).ToList();
 
             return flashcardGroups;
@@ -60,6 +56,8 @@ namespace CoursesAPI.Controllers
             {
                 return NotFound();
             }
+
+            flashcardsGroup.Flashcards = await _context.Flashcards.Where(x => x.FlashcardsGroup == flashcardsGroup).ToListAsync();
 
             return flashcardsGroup;
         }
