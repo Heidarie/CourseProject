@@ -2,6 +2,10 @@
 {
     public class FlashcardModel
     {
+        public FlashcardModel()
+        {
+
+        }
         public FlashcardModel(string key, string value)
         {
             Id = Guid.NewGuid();
