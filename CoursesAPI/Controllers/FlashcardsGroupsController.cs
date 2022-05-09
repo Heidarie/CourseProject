@@ -18,18 +18,11 @@ namespace CoursesAPI.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class FlashcardsGroupsController : ControllerBase
+    public class FlashcardsGroupsController : BaseController
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
-        private string userEmail { get; set; }
-        public string UserEmail { get
-            {
-                if (userEmail == null)
-                    userEmail = this.User.FindFirstValue(ClaimTypes.Email);
-                return userEmail;
-            } }
-
+        
         public FlashcardsGroupsController(ApplicationDbContext context, UserManager<User> userManager)
         {
             _context = context;
@@ -48,7 +41,7 @@ namespace CoursesAPI.Controllers
 
         // GET: api/FlashcardsGroups/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<FlashcardsGroup>> GetFlashcardsGroup(Guid id)
+        public async Task<ActionResult<List<FlashcardModel>>> GetFlashcardsGroup(Guid id)
         {
             var flashcardsGroup = await _context.FlashcardsGroups.FindAsync(id);
 
@@ -59,7 +52,9 @@ namespace CoursesAPI.Controllers
 
             flashcardsGroup.Flashcards = await _context.Flashcards.Where(x => x.FlashcardsGroup == flashcardsGroup).ToListAsync();
 
-            return flashcardsGroup;
+            List<FlashcardModel> fModelList = flashcardsGroup.Flashcards.Select(x => new FlashcardModel(x)).ToList();
+
+            return fModelList;
         }
 
         [HttpPost]
@@ -78,9 +73,7 @@ namespace CoursesAPI.Controllers
                     Image = flashcardsGroup.Image
                 };
 
-                List<Flashcard> flashcards = flashcardsGroup.Flashcards.Select(x => new Flashcard(x, dbFlashcardGroup)).ToList();
-
-                dbFlashcardGroup.Flashcards = flashcards;
+                dbFlashcardGroup.Flashcards = flashcardsGroup.Flashcards.Select(x => new Flashcard(x, dbFlashcardGroup)).ToList();
 
                 _context.FlashcardsGroups.Add(dbFlashcardGroup);
                 _context.SaveChanges();
