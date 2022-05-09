@@ -10,7 +10,7 @@
         [Column(TypeName = "nvarchar(100)")]
         public string Author { get; set; }
         [Column(TypeName = "image")]
-        public string Image { get; set; }
+        public string? Image { get; set; }
         public ICollection<Quiz> Quizzes { get; set; }
 
     }

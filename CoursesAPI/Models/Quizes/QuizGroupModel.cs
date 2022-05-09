@@ -2,17 +2,22 @@
 {
     public class QuizGroupModel
     {
-        public QuizGroupModel(string name, string author, List<QuizModel> quizzes)
+        public QuizGroupModel()
         {
-            Id = Guid.NewGuid();
-            Name = name;
-            Author = author;
-            Quizzes = quizzes;
+
+        }
+        public QuizGroupModel(QuizGroup qGroup)
+        {
+            Id = qGroup.Id;
+            Name = qGroup.GroupName;
+            Author = qGroup.Author;
+            Quizzes = qGroup.Quizzes != null ? qGroup.Quizzes.Select(x => new QuizModel(x)).ToList() : null;
         }
 
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string Author { get; set; }
-        public List<QuizModel> Quizzes { get; set; }
+        public Guid? Id { get; set; }
+        public string? Name { get; set; }
+        public string? Author { get; set; }
+        public string? Image { get; set; }
+        public List<QuizModel>? Quizzes { get; set; }
     }
 }
