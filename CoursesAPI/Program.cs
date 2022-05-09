@@ -65,7 +65,7 @@ builder.Services.AddAuthentication(options =>
             ValidateIssuerSigningKey = true,
             ClockSkew = TimeSpan.Zero,
             ValidAudience = builder.Configuration["JWT:ValidAudience"],
-            ValidIssuer = builder.Configuration["JWT:ValidAudience"],
+            ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
         };
     });
@@ -88,6 +88,7 @@ app.UseHttpsRedirection();
 
 app.UseCors("React");
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
