@@ -53,6 +53,7 @@ namespace CoursesAPI.Controllers
 
         // GET: api/Quiz/5
         [HttpGet("{id}")]
+        [Authorize(Roles = "StudentPremium,Teacher")]
         public async Task<ActionResult<QuizGroupModel>> GetQuizGroup(Guid id)
         {
             var quizGroup = await _context.QuizGroups.FindAsync(id);
@@ -70,6 +71,7 @@ namespace CoursesAPI.Controllers
 
         [HttpPost]
         [Route("create-quiz-group")]
+        [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> CreateQuizGroup([FromBody] QuizGroupModel quizGroup)
         {
             QuizGroup qGroup = null;

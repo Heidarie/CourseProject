@@ -37,6 +37,7 @@ namespace CoursesAPI.Controllers
 
         [HttpGet]
         [Route("get-training-details")]
+        [Authorize(Roles ="StudentPremium,Teacher")]
         public async Task<ActionResult<TrainingModel>> GetTrainingsDetails([FromBody]string id)
         {
             var training = _context.Trainings.First(x => x.Id == Guid.Parse(id));
@@ -47,6 +48,7 @@ namespace CoursesAPI.Controllers
 
         [HttpGet]
         [Route("get-training-registration")]
+        [Authorize(Roles = "StudentPremium,Teacher")]
         public async Task<ActionResult<TrainingDetailsModel>> GetTrainingRegistration([FromBody]string detailsId)
         {
             User user = await _userManager.FindByEmailAsync(this.UserEmail);

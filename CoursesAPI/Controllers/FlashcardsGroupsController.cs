@@ -41,6 +41,7 @@ namespace CoursesAPI.Controllers
 
         // GET: api/FlashcardsGroups/5
         [HttpGet("{id}")]
+        [Authorize(Roles = "StudentPremium,Teacher")]
         public async Task<ActionResult<List<FlashcardModel>>> GetFlashcardsGroup(Guid id)
         {
             var flashcardsGroup = await _context.FlashcardsGroups.FindAsync(id);
