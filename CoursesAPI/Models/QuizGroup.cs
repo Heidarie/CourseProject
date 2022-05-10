@@ -5,6 +5,7 @@
         [Key]
         [Column(TypeName = "uniqueidentifier")]
         public Guid Id { get; set; }
+        public Guid OwnerId { get; set; }
         [Column(TypeName = "nvarchar(255)")]
         public string GroupName { get; set; }
         [Column(TypeName = "nvarchar(100)")]

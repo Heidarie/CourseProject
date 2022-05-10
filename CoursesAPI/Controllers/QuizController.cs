@@ -50,6 +50,15 @@ namespace CoursesAPI.Controllers
             List<QuizGroupModel> qGroupModel = qGroups.Select(x => new QuizGroupModel(x)).ToList();
             return qGroupModel;
         }
+        [HttpGet]
+        [Route("get-user-quizzes")]
+        public async Task<ActionResult<IEnumerable<QuizGroupModel>>> GetUserQuizzes()
+        {
+            User user = await _userManager.FindByEmailAsync(this.UserEmail);
+            var qGroups = await _context.QuizGroups.Where(x => x.OwnerId == Guid.Parse(user.Id)).ToListAsync();
+            List<QuizGroupModel> qGroupModel = qGroups.Select(x => new QuizGroupModel(x)).ToList();
+            return qGroupModel;
+        }
 
         // GET: api/Quiz/5
         [HttpGet("{id}")]
@@ -74,6 +83,7 @@ namespace CoursesAPI.Controllers
         [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> CreateQuizGroup([FromBody] QuizGroupModel quizGroup)
         {
+            User user = await _userManager.FindByEmailAsync(this.UserEmail);
             QuizGroup qGroup = null;
             if (ModelState.IsValid)
             {
@@ -83,7 +93,8 @@ namespace CoursesAPI.Controllers
                     Author = author,
                     GroupName = quizGroup.Name,
                     Id = Guid.NewGuid(),
-                    Image = quizGroup.Image
+                    Image = quizGroup.Image,
+                    OwnerId = Guid.Parse(user.Id)
                 };
 
                 qGroup.Quizzes = quizGroup.Quizzes.Select(x => new Quiz(x, qGroup)).ToList();
@@ -100,6 +111,26 @@ namespace CoursesAPI.Controllers
             {
                 throw;
             }
+        }
+
+        [HttpGet]
+        [Route("get-student-results/{id}")]
+        public async Task<ActionResult<List<StudentQuizResultModel>>> GetStudentsResults(string quizId)
+        {
+            User user = await _userManager.FindByEmailAsync(this.UserEmail);
+            var quiz = _context.QuizGroups.Where(x => x.Id == Guid.Parse(quizId) && x.OwnerId == Guid.Parse(user.Id)).Single();
+            if(quiz is not null)
+            {
+                List<StudentQuizResultModel> studentQuizResultModels = new List<StudentQuizResultModel>();
+                List<StudentQuizResult> resultModels = _context.StudentQuizResults.Where(x => x.QuizId == quiz.Id).ToList();
+                foreach(var resultModel in resultModels)
+                {
+                    var studen = _context.Users.Where(x => x.Id == resultModel.StudentId).First();
+                    studentQuizResultModels.Add(new StudentQuizResultModel(user, quiz, resultModel));
+                }
+                return studentQuizResultModels;
+            }
+            return RedirectToAction("GetQuizGroups");
         }
 
         // POST: api/Quiz

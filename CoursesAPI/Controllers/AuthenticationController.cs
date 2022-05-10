@@ -1,6 +1,8 @@
 ﻿using CoursesAPI.Models;
 using CoursesAPI.Models.Account;
+using CoursesAPI.Models.DbEntity;
 using CoursesAPI.Models.Token;
+using CoursesAPI.Refactors;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -18,16 +20,19 @@ namespace CoursesAPI.Controllers
     [ApiController]
     public class AuthenticationController : BaseController
     {
+        private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
 
-        public AuthenticationController(UserManager<User> userManager, 
+        public AuthenticationController(ApplicationDbContext context, 
+            UserManager<User> userManager, 
             SignInManager<User> signInManager, 
             RoleManager<IdentityRole> roleManager, 
             IConfiguration configuration)
         {
+            _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
@@ -156,6 +161,7 @@ namespace CoursesAPI.Controllers
 
         [HttpPost]
         [Route("premium-account")]
+        [Authorize(Roles="Student,Admin")]
         public async Task<IActionResult> GrantPremium([FromBody] int month)
         {
             User user = await _userManager.FindByEmailAsync(this.UserEmail);
@@ -165,6 +171,10 @@ namespace CoursesAPI.Controllers
             await _userManager.AddToRoleAsync(user, "StudentPremium");
 
             user.PremiumAccountExpiryTime = DateTime.Now.AddMonths(month);
+
+            _context.Users.Update(user);
+
+            MailFactory.SendMail(user, String.Format("Dziękujemy za zakup! Twoje konto straci ważność: {0}", user.PremiumAccountExpiryTime));
 
             return Ok(new Response { Status = "Granted", Message = "Pakiet został zakupiony" });
 

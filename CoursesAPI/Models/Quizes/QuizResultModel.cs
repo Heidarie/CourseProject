@@ -5,6 +5,6 @@
         public int Result { get; set; }
         public int MaxPoint { get; set; }
 
-        public double Percentage => (((double)Result / (double)MaxPoint) * 100);
+        public int Percentage => (int)Math.Round((((double)Result / (double)MaxPoint) * 100),0);
     }
 }

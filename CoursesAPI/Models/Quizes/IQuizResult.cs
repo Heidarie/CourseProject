@@ -4,6 +4,6 @@
     {
         public int Result { get; set; }
         public int MaxPoint { get; set; }
-        public double Percentage { get; }
+        public int Percentage { get; }
     }
 }

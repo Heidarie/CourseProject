@@ -9,6 +9,6 @@
         public Guid QuizId { get; set; }
         public int GatheredPoints { get; set; }
         public int MaxPoints { get; set; }
-        public double ResultPercentage { get; set; }
+        public int ResultPercentage { get; set; }
     }
 }

@@ -39,6 +39,18 @@ namespace CoursesAPI.Controllers
             return flashcardGroups;
         }
 
+        [HttpGet]
+        [Route("get-user-flashcardgroups")]
+        public async Task<ActionResult<IEnumerable<FlashcardGroupModel>>> GetUserFlashcardsGroups()
+        {
+            User user = await _userManager.FindByEmailAsync(this.UserEmail);
+            List<FlashcardsGroup> dbFlashcardsGroups = await _context.FlashcardsGroups
+                .Where(x => x.OwnerId == Guid.Parse(user.Id)).ToListAsync();
+            List<FlashcardGroupModel> flashcardGroups = dbFlashcardsGroups.Select(e => new FlashcardGroupModel(e)).ToList();
+
+            return flashcardGroups;
+        }
+
         // GET: api/FlashcardsGroups/5
         [HttpGet("{id}")]
         [Authorize(Roles = "StudentPremium,Teacher")]
@@ -65,13 +77,15 @@ namespace CoursesAPI.Controllers
         {
             if (ModelState.IsValid)
             {
+                User user = await _userManager.FindByEmailAsync(this.UserEmail);
                 string author = await GetAuthor();
                 FlashcardsGroup dbFlashcardGroup = new FlashcardsGroup()
                 {
                     Id = Guid.NewGuid(),
                     Author = author,
                     GroupName = flashcardsGroup.Name,
-                    Image = flashcardsGroup.Image
+                    Image = flashcardsGroup.Image,
+                    OwnerId = Guid.Parse(user.Id)
                 };
 
                 dbFlashcardGroup.Flashcards = flashcardsGroup.Flashcards.Select(x => new Flashcard(x, dbFlashcardGroup)).ToList();

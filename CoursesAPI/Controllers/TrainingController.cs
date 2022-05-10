@@ -11,6 +11,7 @@ using CoursesAPI.Models.DbEntity;
 using CoursesAPI.Models.Trainings;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using CoursesAPI.Refactors;
 
 namespace CoursesAPI.Controllers
 {
@@ -33,6 +34,14 @@ namespace CoursesAPI.Controllers
         public async Task<ActionResult<IEnumerable<Training>>> GetTrainings()
         {
             return await _context.Trainings.ToListAsync();
+        }
+
+        [HttpGet]
+        [Route("get-user-trainings")]
+        public async Task<ActionResult<IEnumerable<Training>>> GetUserTrainings()
+        {
+            User user = await _userManager.FindByEmailAsync(this.UserEmail);
+            return await _context.Trainings.Where(x => x.OwnerId == Guid.Parse(user.Id)).ToListAsync();
         }
 
         [HttpGet]
@@ -123,6 +132,9 @@ namespace CoursesAPI.Controllers
             _context.TrainingsDetails.Update(trainingDetails);
 
             _context.SaveChanges();
+
+            MailFactory.SendMail(user,
+                String.Format("Zapisałeś się na szkolenie {0}, które odbędzie się {1} o godzinie {2}", trainingDetails.Training.Title,trainingDetails.EventDateTime.ToShortDateString(), trainingDetails.EventDateTime.ToLongTimeString()));
 
             return Ok(new Response { Status = "Added", Message = "Zapisano na kurs" });
         }
