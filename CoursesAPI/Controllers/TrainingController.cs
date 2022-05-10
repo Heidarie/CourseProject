@@ -82,6 +82,7 @@ namespace CoursesAPI.Controllers
                 OwnerId = Guid.Parse(user.Id),
                 Description = training.Description,
                 Title = training.Title,
+                Author = await GetAuthor()
             };
 
             dbTraining.TrainingDetails = training.TrainingDetails.Select(x => new TrainingDetails(x, dbTraining)).ToList();
@@ -143,6 +144,12 @@ namespace CoursesAPI.Controllers
         private bool TrainingExists(Guid id)
         {
             return _context.Trainings.Any(e => e.Id == id);
+        }
+
+        private async Task<string> GetAuthor()
+        {
+            User user = await _userManager.FindByEmailAsync(this.UserEmail);
+            return string.Format("{0} {1}", user.GivenName, user.FamilyName);
         }
     }
 }

@@ -7,6 +7,7 @@
         [Column(TypeName = "uniqueidentifier")]
         public Guid OwnerId { get; set; }
         [Column(TypeName = "nvarchar(max)")]
+        public string Author { get; set; }
         public string? Participants { get; set; }
         [Column(TypeName = "nvarchar(100)")]
         public string Title { get; set; }

@@ -15,10 +15,12 @@
             Title = training.Title;
             Description = training.Description;
             TrainingDetails = training.TrainingDetails.Select(x => new TrainingDetailsModel(x)).ToList();
+            Author = training.Author;
         }
 
         public Guid? Id { get; set; }
         public Guid? OwnerId { get; set; }
+        public string? Author { get; set; }
         public List<string>? Participants { get; set; }
         public string? Title { get; set; }
         public string? Description { get; set; }
