@@ -28,10 +28,6 @@ namespace CoursesAPI.Models.DbEntity
                 .HasConversion<int>();
             
             builder
-                .Entity<UserTraining>()
-                .HasNoKey();
-
-            builder
                 .Entity<Training>()
                 .HasMany(c => c.TrainingDetails)
                 .WithOne(e => e.Training)
