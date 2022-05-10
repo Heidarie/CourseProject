@@ -36,9 +36,9 @@ namespace CoursesAPI.Controllers
         }
 
         [HttpGet]
-        [Route("get-training-details")]
+        [Route("get-training-details/{id}")]
         [Authorize(Roles ="StudentPremium,Teacher")]
-        public async Task<ActionResult<TrainingModel>> GetTrainingsDetails([FromBody]string id)
+        public async Task<ActionResult<TrainingModel>> GetTrainingsDetails(string id)
         {
             var training = _context.Trainings.First(x => x.Id == Guid.Parse(id));
             training.TrainingDetails = _context.TrainingsDetails.Where(x => x.Training == training).ToList();
@@ -47,9 +47,9 @@ namespace CoursesAPI.Controllers
         }
 
         [HttpGet]
-        [Route("get-training-registration")]
+        [Route("get-training-registration/{id}")]
         [Authorize(Roles = "StudentPremium,Teacher")]
-        public async Task<ActionResult<TrainingDetailsModel>> GetTrainingRegistration([FromBody]string detailsId)
+        public async Task<ActionResult<TrainingDetailsModel>> GetTrainingRegistration(string detailsId)
         {
             User user = await _userManager.FindByEmailAsync(this.UserEmail);
 
@@ -104,8 +104,8 @@ namespace CoursesAPI.Controllers
         // POST: api/Training
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Route("sign-up")]
-        public async Task<IActionResult> SignUp([FromBody] string id)
+        [Route("sign-up/{id}")]
+        public async Task<IActionResult> SignUp(string id)
         {
             User user = await _userManager.FindByEmailAsync(this.UserEmail);
 
