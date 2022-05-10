@@ -16,7 +16,7 @@ namespace CoursesAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthenticationController : ControllerBase
+    public class AuthenticationController : BaseController
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
@@ -155,6 +155,22 @@ namespace CoursesAPI.Controllers
         }
 
         [HttpPost]
+        [Route("premium-account")]
+        public async Task<IActionResult> GrantPremium([FromBody] int month)
+        {
+            User user = await _userManager.FindByEmailAsync(this.UserEmail);
+
+            if (!await _roleManager.RoleExistsAsync("StudentPremium"))
+                await _roleManager.CreateAsync(new IdentityRole("StudentPremium"));
+            await _userManager.AddToRoleAsync(user, "StudentPremium");
+
+            user.PremiumAccountExpiryTime = DateTime.Now.AddMonths(month);
+
+            return Ok(new Response { Status = "Granted", Message = "Pakiet został zakupiony" });
+
+        }
+
+        [HttpPost]
         [Route("refresh-token")]
         public async Task<IActionResult> RefreshToken(TokenModel tokenModel)
         {
@@ -179,6 +195,12 @@ namespace CoursesAPI.Controllers
 #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
 
             var user = await _userManager.FindByNameAsync(username);
+
+            if (user.PremiumAccountExpiryTime < DateTime.Now)
+            {
+                await _userManager.RemoveFromRoleAsync(user, "StudentPremium");
+                return await Revoke(user.Id);
+            }
 
             if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
             {
