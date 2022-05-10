@@ -103,12 +103,45 @@ namespace CoursesAPI.Controllers
         // POST: api/Quiz
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<QuizGroup>> PostQuizGroup(QuizGroup quizGroup)
+        [Route("validate-answers")]
+        public async Task<ActionResult<QuizResultModel>> ValidateAnswers(AnswerSheetModel sheetModel)
         {
-            _context.QuizGroups.Add(quizGroup);
-            await _context.SaveChangesAsync();
+            var quiz = await _context.QuizGroups.FindAsync(sheetModel.QuizId);
+            quiz.Quizzes = _context.Quizzes.Where(x => x.QuizGroup == quiz).ToList();
+            User user = await _userManager.FindByEmailAsync(this.UserEmail);
 
-            return CreatedAtAction("GetQuizGroup", new { id = quizGroup.Id }, quizGroup);
+            QuizResultModel result = new QuizResultModel();
+
+            foreach(var answer in sheetModel.Answers)
+            {
+                var q = quiz.Quizzes.Where(x => x.Id == answer.Id).Single();
+                result.MaxPoint += q.CorrectAnswersNumber;
+                foreach(var a in answer.Answers)
+                {
+                    var studentAnswers = a.Split(",").ToList();
+                    foreach(var studentAnswer in studentAnswers)
+                    {
+                        if (q.CorrectAnswers.Contains(studentAnswer))
+                            result.Result += 1;
+                    }
+                }
+
+            }
+
+            StudentQuizResult quizResult = new StudentQuizResult()
+            {
+                Id = Guid.NewGuid(),
+                StudentId = user.Id,
+                QuizId = quiz.Id,
+                GatheredPoints = result.Result,
+                MaxPoints = result.MaxPoint,
+                ResultPercentage = result.Percentage
+            };
+
+            _context.StudentQuizResults.Add(quizResult);
+            _context.SaveChanges();
+
+            return result;
         }
 
         // DELETE: api/Quiz/5

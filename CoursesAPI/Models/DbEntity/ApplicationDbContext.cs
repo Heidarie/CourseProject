@@ -18,6 +18,7 @@ namespace CoursesAPI.Models.DbEntity
         public DbSet<Quiz> Quizzes { get; set; }
         public DbSet<QuizGroup> QuizGroups { get; set; }
         public DbSet<TrainingDetails> TrainingsDetails { get; set; }
+        public DbSet<StudentQuizResult> StudentQuizResults { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
