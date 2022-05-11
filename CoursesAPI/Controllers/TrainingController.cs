@@ -50,7 +50,7 @@ namespace CoursesAPI.Controllers
         public async Task<ActionResult<TrainingModel>> GetTrainingsDetails(string id)
         {
             var training = _context.Trainings.First(x => x.Id == Guid.Parse(id));
-            training.TrainingDetails = _context.TrainingsDetails.Where(x => x.Training == training).ToList();
+            training.TrainingDetails = _context.TrainingsDetails.Where(x => x.Training == training && x.EventDateTime >= DateTime.Now).ToList();
 
             return new TrainingModel(training);
         }
@@ -137,6 +137,27 @@ namespace CoursesAPI.Controllers
                 String.Format("Zapisałeś się na szkolenie {0}, które odbędzie się {1} o godzinie {2}", trainingDetails.Training.Title,trainingDetails.EventDateTime.ToShortDateString(), trainingDetails.EventDateTime.ToLongTimeString()));
 
             return Ok(new Response { Status = "Added", Message = "Zapisano na kurs" });
+        }
+
+        [HttpPost]
+        [Route("sign-out/{id}")]
+        public async Task<IActionResult> SignOut(string id)
+        {
+            User user = await _userManager.FindByEmailAsync(this.UserEmail);
+
+            var userTraining = _context.UserTrainings.Where(x => x.TrainingId == Guid.Parse(id) && x.UserId == Guid.Parse(user.Id)).Single();
+
+            _context.UserTrainings.Remove(userTraining);
+
+            TrainingDetails trainingDetails = _context.TrainingsDetails.FirstOrDefault(x => x.Id == Guid.Parse(id));
+
+            trainingDetails.ParticipantsRegistered -= 1;
+
+            _context.TrainingsDetails.Update(trainingDetails);
+
+            _context.SaveChanges();
+
+            return Ok(new Response { Status = "Removed", Message = "Wypisano z kursu" });
         }
 
         // DELETE: api/Training/5
