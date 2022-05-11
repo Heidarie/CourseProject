@@ -38,5 +38,18 @@ namespace CoursesAPI.Controllers
 
             return userModel;
         }
+
+        [HttpPost]
+        [Route("change-password")]
+        public async Task<IActionResult> ChangePassword(UserPasswordModel model)
+        {
+            User user = await _userManager.FindByEmailAsync(this.UserEmail);
+            var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+            if (result.Succeeded)
+            {
+                return Ok(new Response { Status = "Changed", Message = "Hasło zostało zmienione" });
+            }
+            return NotFound(new Response { Status = "Rejected", Message = "Hasła się nie zgadzają" });
+        }
     }
 }
