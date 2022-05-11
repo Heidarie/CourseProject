@@ -33,7 +33,7 @@ namespace CoursesAPI.Controllers
 
             userModel.Role = userRoles.Contains(RoleList.Admin.ToString()) ? "Administrator" :
                 userRoles.Contains(RoleList.Teacher.ToString()) ? "Prowadzący" :
-                userRoles.Contains("StudentPremium") ? "Abonament" :
+                userRoles.Contains("StudentPremium") ? "Student" :
                 userRoles.Contains(RoleList.Student.ToString()) ? RoleList.Student.ToString() : "";
 
             return userModel;
