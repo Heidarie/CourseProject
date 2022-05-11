@@ -174,6 +174,8 @@ namespace CoursesAPI.Controllers
 
             _context.Users.Update(user);
 
+            _context.SaveChanges();
+
             MailFactory.SendMail(user, String.Format("Dziękujemy za zakup! Twoje konto straci ważność: {0}", user.PremiumAccountExpiryTime));
 
             return Ok(new Response { Status = "Granted", Message = "Pakiet został zakupiony" });
