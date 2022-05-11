@@ -125,7 +125,7 @@ namespace CoursesAPI.Controllers
                 TrainingId = Guid.Parse(id),
             });
 
-            TrainingDetails trainingDetails = _context.TrainingsDetails.FirstOrDefault(x => x.Id == Guid.Parse(id));
+            TrainingDetails trainingDetails = _context.TrainingsDetails.Include(p => p.Training).FirstOrDefault(x => x.Id == Guid.Parse(id));
 
             trainingDetails.ParticipantsRegistered += 1;
 
