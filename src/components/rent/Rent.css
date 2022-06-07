@@ -1,0 +1,25 @@
+.Rent{
+    width: 100%;
+    margin: auto;
+}
+.filters{
+    background-color: #dcdedc;
+    min-height: 100px;
+    
+}
+.car{
+    background-color: white;
+    border:0.5px solid gray;
+    margin-bottom: 1%;
+    padding: 1%;
+}
+.rentCar{width: 100%;
+height: 100%;}
+
+.Cars{
+    width: 80%;
+    margin: auto;
+}
+.price{
+    color:darkred
+}

@@ -1,0 +1,15 @@
+{
+  "name": "string",
+  "quizzes": [
+    {
+      "question": "string",
+      "correctAnswersNumber": 0,
+      "correctAnswers": [
+        "string"
+      ],
+      "answers": [
+        "string"
+      ]
+    }
+  ]
+}

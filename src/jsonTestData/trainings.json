@@ -1,0 +1,18 @@
+[{
+    "id":1,
+    "name":"kolory",
+    "instructor":"Imię Nazwisko",
+    "description":"super szkolenie o kolorach"
+},{
+    "id":2,
+    "name":"zwierzęta",
+    "instructor":"Imię Nazwisko",
+    "description":"super szkolenie o zwierzętach"
+},
+{
+    "id":3,
+    "name":"pojazdy",
+    "instructor":"Imię Nazwisko",
+    "description":"super szkolenie o pojazdach"
+}
+]

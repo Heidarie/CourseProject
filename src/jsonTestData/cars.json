@@ -1,0 +1,61 @@
+[{
+    "Id":1,
+    "PricePerDay":100,
+    "ShortDescription":"asddd ddddsfd as asdffsd sdf hdf fdga sd dfasd sdfjsdn  sdjkfnsdk jnfsd  sdkfjnsdk jnsdf sd sdf",
+    "Brand":"Audi",
+    "Model":"A4",
+    "FuelType":"Diesel",
+    "Gearbox":"Manualna",
+    "Drive":"4x4",
+    "Image":"asd",
+    "CarCategory":1
+
+},{
+    "Id":1,
+    "PricePerDay":100,
+    "ShortDescription":"asddd ddddsfd as asdffsd sdf hdf fdga sd dfasd sdfjsdn  sdjkfnsdk jnfsd  sdkfjnsdk jnsdf sd sdf",
+    "Brand":"Audi",
+    "Model":"A4",
+    "FuelType":"Diesel",
+    "Gearbox":"Manualna",
+    "Drive":"4x4",
+    "Image":"asd",
+    "CarCategory":1
+
+},{
+    "Id":1,
+    "PricePerDay":100,
+    "ShortDescription":"asddd ddddsfd as asdffsd sdf hdf fdga sd dfasd sdfjsdn  sdjkfnsdk jnfsd  sdkfjnsdk jnsdf sd sdf",
+    "Brand":"Audi",
+    "Model":"A4",
+    "FuelType":"Diesel",
+    "Gearbox":"Manualna",
+    "Drive":"4x4",
+    "Image":"asd",
+    "CarCategory":1
+
+},{
+    "Id":1,
+    "PricePerDay":100,
+    "ShortDescription":"asddd ddddsfd as asdffsd sdf hdf fdga sd dfasd sdfjsdn  sdjkfnsdk jnfsd  sdkfjnsdk jnsdf sd sdf",
+    "Brand":"Audi",
+    "Model":"A4",
+    "FuelType":"Diesel",
+    "Gearbox":"Manualna",
+    "Drive":"4x4",
+    "Image":"asd",
+    "CarCategory":1
+
+},{
+    "Id":1,
+    "PricePerDay":100,
+    "ShortDescription":"asddd ddddsfd as asdffsd sdf hdf fdga sd dfasd sdfjsdn  sdjkfnsdk jnfsd  sdkfjnsdk jnsdf sd sdf",
+    "Brand":"Audi",
+    "Model":"A4",
+    "FuelType":"Diesel",
+    "Gearbox":"Manualna",
+    "Drive":"4x4",
+    "Image":"asd",
+    "CarCategory":1
+
+}]

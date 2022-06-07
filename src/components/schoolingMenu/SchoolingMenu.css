@@ -1,0 +1,41 @@
+.sTitle{
+    text-align: center;
+    font-size: 50px;
+    margin-bottom: 5%;
+}
+.SchoolingBox{
+   
+    margin-left:10%;
+    margin-right: 10%;
+}
+.Schooling{
+    width: 100%;
+    min-height: 200px;
+    border:dashed 1px blue;
+    margin-bottom: 5%;
+    color:black;
+}
+.Schooling:hover{
+    background-color: grey;
+    color:white;
+    cursor: pointer;
+
+}
+.SchoolingName{
+    margin: auto;
+    display: table;
+    font-size: 170%;
+    clear:both;
+}
+.SchoolingLink{
+    text-decoration: none;
+}
+.instructor{
+    text-align: center;
+
+}
+.desc{
+    padding-left: 3%;
+    color:white;
+  
+}

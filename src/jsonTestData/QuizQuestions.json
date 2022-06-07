@@ -1,0 +1,22 @@
+{
+    "quizName":"Kolory",
+    "author":"Imię naziwkso",
+    "id":1,
+    "questions":[{
+        "id":1,
+        "correctAnswersNumber" : "1",
+        "question":"zielony",
+        "answers":["green","red","yellow","purple"]
+    },
+    {
+        "id":2,
+        "correctAnswersNumber":"2",
+        "question":"Niebieski czerwony",
+        "answers":["blue","red","yellow","purple"]
+    },
+    {
+        "id":3,
+        "correctAnswersNumber":"1",
+        "question":"Fioletowy",
+        "answers":["purple","red","yellow","purple"]
+    }]}

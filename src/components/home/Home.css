@@ -1,0 +1,58 @@
+.Home{
+    width:90%;
+    margin: auto;
+    height: 100%;
+    min-height: 1000px;
+}
+.photo{
+    margin: auto;
+}
+.homeBoxes{
+    border-radius: 20px;
+    margin: 0 auto;
+    max-width: 70%;
+    -webkit-box-shadow: 7px 20px 54px -4px rgba(66, 68, 90, 1);
+    -moz-box-shadow: 7px 20px 54px -4px rgba(66, 68, 90, 1);
+    box-shadow: 7px 20px 54px -4px rgba(66, 68, 90, 1);
+    overflow: hidden;
+    position:relative;
+    top: -30px;
+}
+.homeBox{
+    min-height: 150px;
+    background-color: white;
+}
+.homeBox:hover{
+    background-color: gray;
+   
+}
+.borderLeft{
+    border-top-left-radius:10%;
+    border-bottom-left-radius:10%;
+  }
+  .borderRight{
+    border-top-right-radius:10%;
+    border-bottom-right-radius:10%;
+  }
+  .homeBoxTitle{
+    font-weight: bold;
+    color:#cc9900;
+    text-align: center;
+  }
+  .homeBoxLink{
+    font-weight: bold;
+    color:#cc9900;
+    text-align: center;
+  }
+  .photoLeft{
+    border-radius: 30%;
+    
+  }
+  .textRight{
+    border-radius: 20px;
+    margin: 0 auto;
+    -webkit-box-shadow: 7px 20px 54px -4px rgba(66, 68, 90, 1);
+    -moz-box-shadow: 7px 20px 54px -4px rgba(66, 68, 90, 1);
+    box-shadow: 7px 20px 54px -4px rgba(66, 68, 90, 1);
+    overflow: hidden;
+  }

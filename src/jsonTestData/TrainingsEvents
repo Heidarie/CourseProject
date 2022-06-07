@@ -1,0 +1,32 @@
+{
+    "id":1,
+    "name":"kolory",
+    "instructor":"Imię Nazwisko",
+    "description":"....",
+    "dates":[
+        {
+            "id":0,
+            "date":"2022.05.18",
+            "time":"16:00",
+            "participantsCount":15,
+            "participantsLimit":30,
+            "isCurrentUserParticipant":false
+        },
+        {
+            "id":2,
+            "date":"2022.05.18",
+            "time":"16:00",
+            "participantsCount":15,
+            "participantsLimit":30,
+            "isCurrentUserParticipant":false
+        },
+        {
+            "id":3,
+            "date":"2022.05.18",
+            "time":"16:00",
+            "participantsCount":15,
+            "participantsLimit":30,
+            "isCurrentUserParticipant":false
+        }
+    ]
+}

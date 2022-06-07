@@ -1,0 +1,18 @@
+
+.loginFields{
+    width:30%;
+    margin: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+}
+.validationMessage{
+    font-weight: bold;
+    color:red;
+    min-height: 25px;
+}
+.registerLink{
+    color:gray;
+}

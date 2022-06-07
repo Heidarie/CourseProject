@@ -1,0 +1,57 @@
+[{
+    "id":1,
+    "name":"kolory",
+    "flashcards":[{
+        "id":1,
+        "key":"Czerwony",
+        "value":"Red"
+    },{
+    "id":2,
+    "key":"Żółty",
+    "value":"Yellow"
+    },
+    {
+        "id":3,
+        "key":"Zielony",
+        "value":"Green"
+        }
+]
+},{
+    "id":2,
+    "name":"zwierzęta",
+    "flashcards":[{
+        "id":1,
+        "key":"Czerwony",
+        "value":"Red"
+    },{
+    "id":2,
+    "key":"Żółty",
+    "value":"Yellow"
+    },
+    {
+        "id":3,
+        "key":"Zielony",
+        "value":"Green"
+        }
+]
+},
+{
+    "id":3,
+    "name":"pojazdy",
+    "flashcards":[{
+        "id":1,
+        "key":"Czerwony",
+        "value":"Red"
+    },{
+    "id":2,
+    "key":"Żółty",
+    "value":"Yellow"
+    },
+    {
+        "id":3,
+        "key":"Zielony",
+        "value":"Green"
+        }
+]
+}
+]

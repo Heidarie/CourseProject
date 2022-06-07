@@ -1,0 +1,46 @@
+import './App.css';
+import Footer from './components/footer/Footer';
+import ChangePassword from './components/changePassword/ChangePassword';
+import  Nav  from './components/nav/Nav';
+import { Routes,Route } from 'react-router-dom';
+import Login from "./components/login/Login";
+import Register from './components/register/Register';
+import { Row,Col } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import NotAuthorized from './components/NotAuthorized';
+import Home from './components/home/Home';
+import Payment from './components/Payment';
+import Profil from './components/Profil/Profil';
+import Rent from './components/rent/rent';
+
+function App() {
+
+  const history = useNavigate();
+  return (
+    <>
+    <div className='appCon'>
+    <Nav />
+    <Row>
+    <Col sm style={{ paddingRight: 0 }}>
+    <div className="appBox">
+    <Routes>
+          <Route path="/" element={<Home/>}/>
+          <Route path="/Login" element={<Login history={history}/>}/>
+          <Route path="/Register" element={<Register history={history}/>}/>
+          <Route path="/ChangePassword" element={<ChangePassword history={history}/>}/>
+          <Route path="/NotAuthorized/" element={<NotAuthorized/>} />         
+          <Route path="/Payment/" element={<Payment history={history}/>} />
+          <Route path="/Profil/" element={<Profil history={history}/>} />
+          <Route path="/Rent/" element={<Rent history={history}/>} />
+    </Routes>
+    </div>
+    </Col>
+    </Row>
+   
+    </div>
+    <Footer/>
+    </>
+  );
+}
+
+export default App;

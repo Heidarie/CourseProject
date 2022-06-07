@@ -1,0 +1,15 @@
+[{
+    "id":1,
+    "name":"kolory",
+    "author":"Imię Nazwisko"
+},{
+    "id":2,
+    "name":"zwierzęta",
+    "author":"Imię Nazwisko"
+},
+{
+    "id":3,
+    "name":"pojazdy",
+    "author":"Imię Nazwisko"
+}
+]
