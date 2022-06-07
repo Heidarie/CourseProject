@@ -1,4 +1,6 @@
-﻿namespace CoursesAPI.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace CoursesAPI.Models
 {
     public class Enums
     {
@@ -6,16 +8,21 @@
         {
             [Display(Name = "Administrator")]
             Admin = 0,
-            [Display(Name = "Prowadzący")]
-            Teacher = 1,
-            [Display(Name = "Student")]
-            Student = 2
         }
 
-        public enum ParticipantTypeId : int
+        public enum CarStatus : int
         {
-            Owner = 0,
-            Participant = 1 
+            Waiting = 0,
+            Loaned = 1 
+        }
+
+        public enum CarCategories
+        {
+            Sportowe = 0,
+            Suv = 1,
+            Hatchback,
+            Kombi,
+            Limuzyna
         }
     }
 }

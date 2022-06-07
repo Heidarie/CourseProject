@@ -23,18 +23,18 @@ namespace CoursesAPI.Controllers
             _userManager = userManager;
         }
 
-        [HttpGet]
-        public async Task<UserModel> GetUserDetails()
-        {
+        //[HttpGet]
+        //public async Task<UserModel> GetUserDetails()
+        //{
 
-            User user = await _userManager.FindByEmailAsync(this.UserEmail);
+        //    User user = await _userManager.FindByEmailAsync(this.UserEmail);
             
-            UserModel userModel = new UserModel(user) { Role = await GetRole(user)};
+        //    //UserModel userModel = new UserModel(user) { Role = await GetRole(user)};
 
             
 
-            return userModel;
-        }
+        //    return userModel;
+        //}
 
         [HttpPost]
         [Route("change-password")]
@@ -57,7 +57,7 @@ namespace CoursesAPI.Controllers
             User admin = await _userManager.FindByEmailAsync(this.UserEmail);
             List<User> users = _context.Users.Where(x => x.Id != admin.Id).ToList();
 
-            List<UserModel> userModels = users.Select(x => new UserModel(x) { Role = GetRole(x).Result}).ToList();
+            List<UserModel> userModels = users.Select(x => new UserModel(x)).ToList();
 
             return userModels;
         }
@@ -79,14 +79,14 @@ namespace CoursesAPI.Controllers
             }
         }
 
-        public async Task<string> GetRole(User user)
-        {
-            var userRoles = await _userManager.GetRolesAsync(user);
+        //public async Task<string> GetRole(User user)
+        //{
+        //    var userRoles = await _userManager.GetRolesAsync(user);
 
-            return userRoles.Contains(RoleList.Admin.ToString()) ? "Administrator" :
-                userRoles.Contains(RoleList.Teacher.ToString()) ? "Prowadzący" :
-                userRoles.Contains("StudentPremium") ? "Student" :
-                userRoles.Contains(RoleList.Student.ToString()) ? RoleList.Student.ToString() : "";
-        }
+        //    return userRoles.Contains(RoleList.Admin.ToString()) ? "Administrator" :
+        //        userRoles.Contains(RoleList.Teacher.ToString()) ? "Prowadzący" :
+        //        userRoles.Contains("StudentPremium") ? "Student" :
+        //        userRoles.Contains(RoleList.Student.ToString()) ? RoleList.Student.ToString() : "";
+        //}
     }
 }

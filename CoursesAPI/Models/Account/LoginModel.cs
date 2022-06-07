@@ -1,4 +1,6 @@
-﻿namespace CoursesAPI.Models.Account
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace CoursesAPI.Models.Account
 {
     public class LoginModel
     {

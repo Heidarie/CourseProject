@@ -22,186 +22,81 @@ namespace CoursesAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("CoursesAPI.Models.Flashcard", b =>
+            modelBuilder.Entity("CoursesAPI.Models.Car", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("FlashcardsGroupId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Key")
-                        .HasColumnType("nvarchar(300)");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("nvarchar(300)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FlashcardsGroupId");
-
-                    b.ToTable("Flashcards");
-                });
-
-            modelBuilder.Entity("CoursesAPI.Models.FlashcardsGroup", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Author")
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("GroupName")
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<byte[]>("Image")
-                        .HasColumnType("image");
-
-                    b.Property<Guid>("OwnerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FlashcardsGroups");
-                });
-
-            modelBuilder.Entity("CoursesAPI.Models.Quiz", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Answers")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CorrectAnswers")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CorrectAnswersNumber")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Question")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("QuizGroupId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("QuizGroupId");
-
-                    b.ToTable("Quizzes");
-                });
-
-            modelBuilder.Entity("CoursesAPI.Models.QuizGroup", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Author")
+                    b.Property<string>("Brand")
                         .IsRequired()
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("GroupName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<byte[]>("Image")
-                        .HasColumnType("image");
-
-                    b.Property<Guid>("OwnerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("QuizGroups");
-                });
-
-            modelBuilder.Entity("CoursesAPI.Models.StudentQuizResult", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("GatheredPoints")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MaxPoints")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("QuizId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("ResultPercentage")
-                        .HasColumnType("int");
-
-                    b.Property<string>("StudentId")
+                    b.Property<string>("CarCategory")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
-
-                    b.ToTable("StudentQuizResults");
-                });
-
-            modelBuilder.Entity("CoursesAPI.Models.Training", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Author")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("CarStatus")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<Guid>("OwnerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Participants")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("Drive")
                         .IsRequired()
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("FuelType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Gearbox")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Model")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<float>("PricePerDay")
+                        .HasColumnType("real");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Trainings");
+                    b.ToTable("Cars");
                 });
 
-            modelBuilder.Entity("CoursesAPI.Models.TrainingDetails", b =>
+            modelBuilder.Entity("CoursesAPI.Models.Loan", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("EventDateTime")
+                    b.Property<Guid>("CarId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("LoanDaysSummary")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LoanFrom")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("ParticipantsLimit")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("LoanTo")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("ParticipantsRegistered")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("TrainingId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TrainingId");
+                    b.HasIndex("CarId");
 
-                    b.ToTable("TrainingsDetails");
+                    b.ToTable("Loans");
                 });
 
             modelBuilder.Entity("CoursesAPI.Models.User", b =>
@@ -248,14 +143,14 @@ namespace CoursesAPI.Migrations
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("PeselNumber")
+                        .HasColumnType("integer");
+
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<DateTime?>("PremiumAccountExpiryTime")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("RefreshToken")
                         .HasColumnType("nvarchar(max)");
@@ -284,26 +179,6 @@ namespace CoursesAPI.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("CoursesAPI.Models.UserTraining", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int?>("ParticitipantTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("TrainingId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UserTrainings");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -439,37 +314,15 @@ namespace CoursesAPI.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("CoursesAPI.Models.Flashcard", b =>
+            modelBuilder.Entity("CoursesAPI.Models.Loan", b =>
                 {
-                    b.HasOne("CoursesAPI.Models.FlashcardsGroup", "FlashcardsGroup")
-                        .WithMany("Flashcards")
-                        .HasForeignKey("FlashcardsGroupId")
+                    b.HasOne("CoursesAPI.Models.Car", "Car")
+                        .WithMany()
+                        .HasForeignKey("CarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("FlashcardsGroup");
-                });
-
-            modelBuilder.Entity("CoursesAPI.Models.Quiz", b =>
-                {
-                    b.HasOne("CoursesAPI.Models.QuizGroup", "QuizGroup")
-                        .WithMany("Quizzes")
-                        .HasForeignKey("QuizGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("QuizGroup");
-                });
-
-            modelBuilder.Entity("CoursesAPI.Models.TrainingDetails", b =>
-                {
-                    b.HasOne("CoursesAPI.Models.Training", "Training")
-                        .WithMany("TrainingDetails")
-                        .HasForeignKey("TrainingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Training");
+                    b.Navigation("Car");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -521,21 +374,6 @@ namespace CoursesAPI.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("CoursesAPI.Models.FlashcardsGroup", b =>
-                {
-                    b.Navigation("Flashcards");
-                });
-
-            modelBuilder.Entity("CoursesAPI.Models.QuizGroup", b =>
-                {
-                    b.Navigation("Quizzes");
-                });
-
-            modelBuilder.Entity("CoursesAPI.Models.Training", b =>
-                {
-                    b.Navigation("TrainingDetails");
                 });
 #pragma warning restore 612, 618
         }

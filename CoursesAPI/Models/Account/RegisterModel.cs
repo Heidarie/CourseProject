@@ -1,4 +1,5 @@
-﻿using static CoursesAPI.Models.Enums;
+﻿using System.ComponentModel.DataAnnotations;
+using static CoursesAPI.Models.Enums;
 
 namespace CoursesAPI.Models.Account
 {
@@ -15,7 +16,9 @@ namespace CoursesAPI.Models.Account
         [Required(ErrorMessage = "Wprowadź swoje nazwisko")]
         [MaxLength (50)]
         public string FamilyName { get; set; }
-        [Required]
-        public RoleList Role { get; set; }
+        [Required(ErrorMessage = "Podaj numer pesel")]
+        public int PeselNumber { get; set; }
+        //[Required]
+        //public RoleList Role { get; set; }
     }
 }

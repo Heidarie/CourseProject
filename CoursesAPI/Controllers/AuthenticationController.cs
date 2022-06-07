@@ -92,10 +92,8 @@ namespace CoursesAPI.Controllers
         {
             var userExists = await _userManager.FindByEmailAsync(model.Email);
             if (userExists != null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Taki użytkownik już istnieje!" });
+                return StatusCode(StatusCodes.Status403Forbidden, new Response { Status = "Error", Message = "Taki użytkownik już istnieje!" });
 
-            if(model.Role == RoleList.Admin)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "You can't register as Admin" });
 
             User user = new()
             {
@@ -103,15 +101,16 @@ namespace CoursesAPI.Controllers
                 UserName = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 GivenName = model.GivenName,
-                FamilyName = model.FamilyName
+                FamilyName = model.FamilyName,
+                PeselNumber = model.PeselNumber
             };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Błąd podczas tworzenia profilu użytkownika. Spróbuj ponownie później." });
+                return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "Błąd podczas tworzenia profilu użytkownika. Spróbuj ponownie później." });
 
-            if (!await _roleManager.RoleExistsAsync(model.Role.ToString()))
-                await _roleManager.CreateAsync(new IdentityRole(model.Role.ToString()));
-            await _userManager.AddToRoleAsync(user, model.Role.ToString());
+            //if (!await _roleManager.RoleExistsAsync(model.Role.ToString()))
+            //    await _roleManager.CreateAsync(new IdentityRole(model.Role.ToString()));
+            //await _userManager.AddToRoleAsync(user, model.Role.ToString());
 
 
             return Ok(new Response { Status = "Success", Message = "Użytkownik został utworzony. Zaloguj się na konto." });
@@ -123,7 +122,7 @@ namespace CoursesAPI.Controllers
         {
             var userExists = await _userManager.FindByEmailAsync(model.Email);
             if (userExists != null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Taki użytkownik już istnieje!" });
+                return StatusCode(StatusCodes.Status403Forbidden, new Response { Status = "Error", Message = "Taki użytkownik już istnieje!" });
 
             User user = new()
             {
@@ -131,27 +130,20 @@ namespace CoursesAPI.Controllers
                 UserName = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 GivenName = model.GivenName,
-                FamilyName = model.FamilyName
+                FamilyName = model.FamilyName,
+                PeselNumber = 0
             };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Błąd podczas tworzenia profilu użytkownika. Spróbuj ponownie później." });
+                return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "Błąd podczas tworzenia profilu użytkownika. Spróbuj ponownie później." });
 
             if (!await _roleManager.RoleExistsAsync(RoleList.Admin.ToString()))
                 await _roleManager.CreateAsync(new IdentityRole(RoleList.Admin.ToString()));
-            if (!await _roleManager.RoleExistsAsync(RoleList.Teacher.ToString()))
-                await _roleManager.CreateAsync(new IdentityRole(RoleList.Teacher.ToString()));
-            if (!await _roleManager.RoleExistsAsync(RoleList.Student.ToString()))
-                await _roleManager.CreateAsync(new IdentityRole(RoleList.Student.ToString()));
+            //if (!await _roleManager.RoleExistsAsync(RoleList.Teacher.ToString()))
+            //    await _roleManager.CreateAsync(new IdentityRole(RoleList.Teacher.ToString()));
+            //if (!await _roleManager.RoleExistsAsync(RoleList.Student.ToString()))
+            //    await _roleManager.CreateAsync(new IdentityRole(RoleList.Student.ToString()));
 
-            if (await _roleManager.RoleExistsAsync(RoleList.Student.ToString()))
-            {
-                await _userManager.AddToRoleAsync(user, RoleList.Student.ToString());
-            }
-            if (await _roleManager.RoleExistsAsync(RoleList.Teacher.ToString()))
-            {
-                await _userManager.AddToRoleAsync(user, RoleList.Teacher.ToString());
-            }
             if (await _roleManager.RoleExistsAsync(RoleList.Admin.ToString()))
             {
                 await _userManager.AddToRoleAsync(user, RoleList.Admin.ToString());
@@ -159,28 +151,28 @@ namespace CoursesAPI.Controllers
             return Ok(new Response { Status = "Success", Message = "Użytkownik został utworzony." });
         }
 
-        [HttpPost]
-        [Route("premium-account")]
-        [Authorize(Roles="Student,Admin")]
-        public async Task<IActionResult> GrantPremium([FromBody] int month)
-        {
-            User user = await _userManager.FindByEmailAsync(this.UserEmail);
+        //[HttpPost]
+        //[Route("premium-account")]
+        //[Authorize(Roles="Student,Admin")]
+        //public async Task<IActionResult> GrantPremium([FromBody] int month)
+        //{
+        //    User user = await _userManager.FindByEmailAsync(this.UserEmail);
 
-            if (!await _roleManager.RoleExistsAsync("StudentPremium"))
-                await _roleManager.CreateAsync(new IdentityRole("StudentPremium"));
-            await _userManager.AddToRoleAsync(user, "StudentPremium");
+        //    if (!await _roleManager.RoleExistsAsync("StudentPremium"))
+        //        await _roleManager.CreateAsync(new IdentityRole("StudentPremium"));
+        //    await _userManager.AddToRoleAsync(user, "StudentPremium");
 
-            user.PremiumAccountExpiryTime = DateTime.Now.AddMonths(month);
+        //    user.PremiumAccountExpiryTime = DateTime.Now.AddMonths(month);
 
-            _context.Users.Update(user);
+        //    _context.Users.Update(user);
 
-            _context.SaveChanges();
+        //    _context.SaveChanges();
 
-            MailFactory.SendMail(user, String.Format("Dziękujemy za zakup! Twoje konto straci ważność: {0}", user.PremiumAccountExpiryTime));
+        //    MailFactory.SendMail(user, String.Format("Dziękujemy za zakup! Twoje konto straci ważność: {0}", user.PremiumAccountExpiryTime));
 
-            return Ok(new Response { Status = "Granted", Message = "Pakiet został zakupiony" });
+        //    return Ok(new Response { Status = "Granted", Message = "Pakiet został zakupiony" });
 
-        }
+        //}
 
         [HttpPost]
         [Route("refresh-token")]
@@ -207,12 +199,6 @@ namespace CoursesAPI.Controllers
 #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
 
             var user = await _userManager.FindByNameAsync(username);
-
-            if (user.PremiumAccountExpiryTime < DateTime.Now)
-            {
-                await _userManager.RemoveFromRoleAsync(user, "StudentPremium");
-                return await Revoke(user.Id);
-            }
 
             if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
             {
