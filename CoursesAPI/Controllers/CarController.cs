@@ -16,6 +16,13 @@ namespace CoursesAPI.Controllers
             return DatabaseManager.GetCarList();
         }
 
+        [HttpGet]
+        [Route("get-car-brands")]
+        public IEnumerable<string> GetCarBrands()
+        {
+            return DatabaseManager.GetCarBrandsList();
+        }
+
         [HttpPost]
         [Route("create-car")]
         [Authorize(Roles ="Administrator")]
