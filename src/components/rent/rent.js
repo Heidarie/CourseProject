@@ -5,11 +5,12 @@ import { Col } from "react-bootstrap";
 import { } from "../../api/Api";
 import Cars from "../../jsonTestData/cars.json"
 import car from "./../../car.png"
+import Modal from "react-modal";
 class Rent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+                isOpen:false
         }
     }
 
@@ -17,6 +18,11 @@ class Rent extends Component {
         this.setState({
             ...this.state,
             [e.target.id]: e.target.value
+        })
+    }
+    toggleModal = () =>{
+        this.setState({
+            isOpen:!this.state.isOpen
         })
     }
 
@@ -85,7 +91,7 @@ class Rent extends Component {
                                     {<h2 className="price">{x.PricePerDay} zł</h2>
                                     }
 
-                                    <button className="mt-auto btn btn-lg btn-block btn-outline-primary" > Wynajmij</button>
+                                    <button className="mt-auto btn btn-lg btn-block btn-outline-primary" onClick={()=>{this.toggleModal()}}> Wynajmij</button>
 
 
                                 </div>
@@ -96,6 +102,42 @@ class Rent extends Component {
                     })}
 
                 </div>
+                <Modal
+                    isOpen={this.state.isOpen}
+                    onRequestClose={this.toggleModal}
+                    style={{
+                        overlay: {
+                            position: 'fixed',
+                            zIndex: 1020,
+                            top: 0,
+                            left: 0,
+                            width: '100vw',
+                            height: '100vh',
+                            background: 'rgba(255, 255, 255, 0.75)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        },
+                        content: {
+                            background: 'white',
+                            width: '45rem',
+                            maxWidth: 'calc(100vw - 10rem)',
+                            minHeight: '300px',
+                            maxHeight: 'calc(100vh - 2rem)',
+                            overflowY: 'auto',
+                            position: 'relative',
+                            border: '1px solid #ccc',
+                            borderRadius: '0.3rem',
+                        }
+                    }}
+                    contentLabel="My dialog"
+                >
+                    <div>
+                        
+                    <button className="mt-auto btn btn-lg btn-block btn-outline-danger" onClick={()=>{this.toggleModal()}}> Anuluj</button>
+                       
+                    </div>
+                </Modal>
             </div>
         );
     }
