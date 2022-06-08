@@ -86,13 +86,17 @@ class Rent extends Component {
                                 <div className="col-md-6"><h3>Opis</h3>
                                     {x.ShortDescription} </div>
 
-                                <div className="col-md-2" style={{ alignItems: "end" }}>
-
-                                    {<h2 className="price">{x.PricePerDay} zł</h2>
+                                <div className="col-md-2 d-flex flex-column text-end">
+                                    
+                                    {
+                                        <div>
+                                        <h2 className="price">{x.PricePerDay} zł</h2>
+                                        </div>
                                     }
-
-                                    <button className="mt-auto btn btn-lg btn-block btn-outline-primary" onClick={()=>{this.toggleModal()}}> Wynajmij</button>
-
+                                    
+                                    <div className="mt-auto">
+                                        <button className="btn btn-lg btn-block btn-outline-primary" onClick={()=>{this.toggleModal()}}>Wynajmij</button>
+                                    </div>
 
                                 </div>
 
