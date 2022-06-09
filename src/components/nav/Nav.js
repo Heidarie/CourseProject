@@ -20,22 +20,13 @@ const Navb = () => {
               navbarScroll
             >
               <Nav.Link as={NavLink} to="/Rent">Wynajem</Nav.Link>
+              <Nav.Link as={NavLink} to="/AddCar">Dodaj samochód</Nav.Link>
               
             </Nav>
             <Nav
               className="ms-auto" >
               <Form className="d-flex">
-                {user ? (<>
-                  {user[0] === "Student" && user.length === 1 ? (<></>) : <>
-                    <NavDropdown title={<span style={{ color: "white" }}>Panel Nauczyciela</span>} id="navbarScrollingDropdown">
-                      <NavDropdown.Item as={NavLink} to="/AddFlashcard">Dodaj fiszki</NavDropdown.Item>
-                      <NavDropdown.Divider />
-                      <NavDropdown.Item as={NavLink} to="/AddQuiz">Dodaj quiz</NavDropdown.Item>
-                      <NavDropdown.Divider />
-                      <NavDropdown.Item as={NavLink} to="/AddSchooling">Dodaj szkolenie</NavDropdown.Item>
-                    </NavDropdown>
-                  </>}
-
+                {user ? (<>             
                   {user.includes("Admin") ? (<NavDropdown title={<span style={{ color: "white" }}>Panel Administratora</span>} id="navbarScrollingDropdown">
                     <NavDropdown.Item as={NavLink} to="/Register">Stwórz użytkownika</NavDropdown.Item>
                     <NavDropdown.Item as={NavLink} to="/Users">Zarządaj użytkownikami</NavDropdown.Item>

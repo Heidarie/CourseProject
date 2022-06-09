@@ -12,6 +12,7 @@ import Home from './components/home/Home';
 import Payment from './components/Payment';
 import Profil from './components/Profil/Profil';
 import Rent from './components/rent/rent';
+import AddCar from './components/addCar/AddCar';
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
           <Route path="/Payment/" element={<Payment history={history}/>} />
           <Route path="/Profil/" element={<Profil history={history}/>} />
           <Route path="/Rent/" element={<Rent history={history}/>} />
+          <Route path="/AddCar/" element={<AddCar history={history}/>} />
     </Routes>
     </div>
     </Col>
