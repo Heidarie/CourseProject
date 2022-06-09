@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { Component, useState } from "react";
 import { Form, Button, Row } from "react-bootstrap";
 import "./Rent.css";
 import { Col } from "react-bootstrap";
@@ -6,12 +6,27 @@ import { } from "../../api/Api";
 import Cars from "../../jsonTestData/cars.json"
 import car from "./../../car.png"
 import Modal from "react-modal";
+import 'react-modern-calendar-datepicker/lib/DatePicker.css';
+import CalendarPicker from '../calendar/Calendar';
+
 class Rent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-                isOpen:false
+                isOpen:false,
+                from: null,
+                to: null
         }
+    }
+
+   
+
+    handleCalendar = (callback) => {
+        this.setState({
+            from: null,
+            to : null
+        });
+        console.log(this.state);
     }
 
     handleChange = (e) => {
@@ -25,6 +40,7 @@ class Rent extends Component {
             isOpen:!this.state.isOpen
         })
     }
+
 
     render() {
         return (
@@ -124,7 +140,7 @@ class Rent extends Component {
                         },
                         content: {
                             background: 'white',
-                            width: '45rem',
+                            width: '25rem',
                             maxWidth: 'calc(100vw - 10rem)',
                             minHeight: '300px',
                             maxHeight: 'calc(100vh - 2rem)',
@@ -136,10 +152,26 @@ class Rent extends Component {
                     }}
                     contentLabel="My dialog"
                 >
-                    <div>
-                        
-                    <button className="mt-auto btn btn-lg btn-block btn-outline-danger" onClick={()=>{this.toggleModal()}}> Anuluj</button>
-                       
+                    <div className="modal-body">
+                        <div className="col-md-12">
+                            <div className="text-center">
+                                <CalendarPicker onDateChange={this.handleCalendar}/>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-md-6 text-start">
+                            <button className="mt-auto btn btn-lg btn-block btn-outline-danger"
+                                onClick={() => { this.toggleModal() }}>
+                                Anuluj
+                            </button>
+                        </div>
+                        <div className="col-md-6 text-end">
+                            <button className="mt-auto btn btn-lg btn-block btn-outline-success"
+                                onClick={() => { this.toggleModal() }}>
+                                Wynajmij
+                            </button>
+                        </div>
                     </div>
                 </Modal>
             </div>
