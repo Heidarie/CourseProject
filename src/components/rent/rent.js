@@ -14,19 +14,23 @@ class Rent extends Component {
         super(props);
         this.state = {
                 isOpen:false,
-                from: null,
-                to: null
+                dateRange:null
         }
     }
 
    
 
+    handleSubmit = () => {
+        console.log(this.state.dateRange)
+        
+    }
+     
+
     handleCalendar = (callback) => {
         this.setState({
-            from: null,
-            to : null
+            dateRange: callback
         });
-        console.log(this.state);
+        
     }
 
     handleChange = (e) => {
@@ -125,6 +129,7 @@ class Rent extends Component {
                 <Modal
                     isOpen={this.state.isOpen}
                     onRequestClose={this.toggleModal}
+                    ariaHideApp={false}
                     style={{
                         overlay: {
                             position: 'fixed',
@@ -168,7 +173,7 @@ class Rent extends Component {
                         </div>
                         <div className="col-md-6 text-end">
                             <button className="mt-auto btn btn-lg btn-block btn-outline-success"
-                                onClick={() => { this.toggleModal() }}>
+                                onClick={() => { this.handleSubmit() }}>
                                 Wynajmij
                             </button>
                         </div>

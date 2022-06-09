@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import "react-modern-calendar-datepicker/lib/DatePicker.css";
-import { Calendar, utils } from "react-modern-calendar-datepicker";
+import '@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css';
+import { Calendar, utils } from '@hassanmojab/react-modern-calendar-datepicker';;
 
 
 const CalendarPicker = ({disabledDays, onDateChange}) =>{
@@ -11,13 +11,14 @@ const CalendarPicker = ({disabledDays, onDateChange}) =>{
       });
 
       const handleCalendarChange = (selectedDayRange) => {
+        setSelectedDayRange(selectedDayRange)
         onDateChange(selectedDayRange);
       }
 
       return (
         <Calendar
           value={selectedDayRange}
-          onChange={setSelectedDayRange}
+          onChange={handleCalendarChange}
           minimumDate={utils().getToday()}
           disabledDays={disabledDays}
           shouldHighlightWeekends
