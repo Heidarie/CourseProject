@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CoursesAPI.Migrations
 {
-    public partial class init : Migration
+    public partial class _0609 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -185,7 +185,7 @@ namespace CoursesAPI.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     LoanFrom = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LoanTo = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LoanDaysSummary = table.Column<int>(type: "int", nullable: false),
@@ -194,6 +194,12 @@ namespace CoursesAPI.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Loans", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Loans_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Loans_Cars_CarId",
                         column: x => x.CarId,
@@ -245,6 +251,11 @@ namespace CoursesAPI.Migrations
                 name: "IX_Loans_CarId",
                 table: "Loans",
                 column: "CarId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Loans_UserId",
+                table: "Loans",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

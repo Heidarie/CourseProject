@@ -151,29 +151,6 @@ namespace CoursesAPI.Controllers
             return Ok(new Response { Status = "Success", Message = "Użytkownik został utworzony." });
         }
 
-        //[HttpPost]
-        //[Route("premium-account")]
-        //[Authorize(Roles="Student,Admin")]
-        //public async Task<IActionResult> GrantPremium([FromBody] int month)
-        //{
-        //    User user = await _userManager.FindByEmailAsync(this.UserEmail);
-
-        //    if (!await _roleManager.RoleExistsAsync("StudentPremium"))
-        //        await _roleManager.CreateAsync(new IdentityRole("StudentPremium"));
-        //    await _userManager.AddToRoleAsync(user, "StudentPremium");
-
-        //    user.PremiumAccountExpiryTime = DateTime.Now.AddMonths(month);
-
-        //    _context.Users.Update(user);
-
-        //    _context.SaveChanges();
-
-        //    MailFactory.SendMail(user, String.Format("Dziękujemy za zakup! Twoje konto straci ważność: {0}", user.PremiumAccountExpiryTime));
-
-        //    return Ok(new Response { Status = "Granted", Message = "Pakiet został zakupiony" });
-
-        //}
-
         [HttpPost]
         [Route("refresh-token")]
         public async Task<IActionResult> RefreshToken(TokenModel tokenModel)

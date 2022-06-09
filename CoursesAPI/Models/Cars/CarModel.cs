@@ -29,10 +29,11 @@ namespace CoursesAPI.Models.Cars
         public string Gearbox { get; set; }
         public string Drive { get; set; }
         public IFormFile Image { get; set; }
+        private string imageString;
         public string ImageString
         {
-            get { return ImageString ?? string.Empty; } // zwracaj image w formie string'a jeśli jest uzupełniony
-            private set { ImageString = ConvertImage(this.Image); } // private ponieważ jest ustawiany na podst. zmiennej interfejsowej Image
+            get { return imageString ?? string.Empty; } // zwracaj image w formie string'a jeśli jest uzupełniony
+            private set { imageString = value; } // private ponieważ jest ustawiany na podst. zmiennej interfejsowej Image
         }
         public string CarCategory { get; set; }
 

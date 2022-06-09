@@ -13,7 +13,7 @@ namespace CoursesAPI.Models.Cars
         public string Drive { get; set; }
         protected IFormFile Image { get; set; }
         public string CarCategory { get; set; }
-        protected string ConvertImage(IFormFile image);
-        protected int GetStatusId(CarStatus status);
+        //protected string ConvertImage(IFormFile image);
+        //protected int GetStatusId(CarStatus status);
     }
 }

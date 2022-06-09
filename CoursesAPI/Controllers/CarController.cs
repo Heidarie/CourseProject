@@ -25,8 +25,7 @@ namespace CoursesAPI.Controllers
 
         [HttpPost]
         [Route("create-car")]
-        [Authorize(Roles ="Administrator")]
-        public async Task<IActionResult> CreateCar([FromBody] CarModel car)
+        public async Task<IActionResult> CreateCar([FromForm] CarModel car)
         {
             var result = await DatabaseManager.CreateCar(car);
             if(result)

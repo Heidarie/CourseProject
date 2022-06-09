@@ -24,5 +24,7 @@ namespace CoursesAPI.Models
         public string Image { get; set; }
         public int CarStatus { get; set; }
         public string CarCategory { get; set; }
+        public IEnumerable<Loan> Loans { get; set; }
+
     }
 }

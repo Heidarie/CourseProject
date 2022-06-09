@@ -13,7 +13,8 @@ namespace CoursesAPI.Models
         public int PeselNumber { get; set; }
         public string? RefreshToken { get; set; }
         public DateTime RefreshTokenExpiryTime { get; set; }
-        //public DateTime? PremiumAccountExpiryTime { get; set; }
+        
+        public IEnumerable<Loan> Loans { get; set; }
 
     }
 }

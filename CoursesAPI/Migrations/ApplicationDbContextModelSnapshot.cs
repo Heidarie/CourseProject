@@ -90,11 +90,14 @@ namespace CoursesAPI.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CarId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Loans");
                 });
@@ -317,12 +320,20 @@ namespace CoursesAPI.Migrations
             modelBuilder.Entity("CoursesAPI.Models.Loan", b =>
                 {
                     b.HasOne("CoursesAPI.Models.Car", "Car")
-                        .WithMany()
+                        .WithMany("Loans")
                         .HasForeignKey("CarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("CoursesAPI.Models.User", "User")
+                        .WithMany("Loans")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Car");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -374,6 +385,16 @@ namespace CoursesAPI.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("CoursesAPI.Models.Car", b =>
+                {
+                    b.Navigation("Loans");
+                });
+
+            modelBuilder.Entity("CoursesAPI.Models.User", b =>
+                {
+                    b.Navigation("Loans");
                 });
 #pragma warning restore 612, 618
         }

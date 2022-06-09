@@ -6,7 +6,7 @@ namespace CoursesAPI.Models
     {
         [Key]
         public Guid Id { get; set; }
-        public User UserId { get; set; }
+        public User User { get; set; }
         public DateTime LoanFrom { get; set; }
         public DateTime LoanTo { get; set; }
         public int LoanDaysSummary { get; set; }

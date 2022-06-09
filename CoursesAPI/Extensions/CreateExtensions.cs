@@ -18,7 +18,7 @@ namespace CoursesAPI.Extensions
                 Model = model.Model,
                 PricePerDay = model.PricePerDay,
                 Id = model.CreateGuid(),
-                Image = model.ImageString,
+                Image = model.Image.ReadAsString(),
                 CarStatus = model.GetStatusId(CarStatus.Waiting),
                 //jeśli jakimś cudem nie zostanie przekazany kategoria to podstawiamy puste
                 CarCategory = Enum.Parse(typeof(CarCategories), model.CarCategory).ToString() ?? "" 

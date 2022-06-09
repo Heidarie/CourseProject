@@ -6,13 +6,18 @@ namespace CoursesAPI.Extensions
     {
         public static string ReadAsString(this IFormFile file)
         {
-            StringBuilder result = new StringBuilder();
-            using (var reader = new StreamReader(file.OpenReadStream()))
+            string s = "";
+            using (var ms = new MemoryStream())
             {
-                while (reader.Peek() >= 0)
-                    result.AppendLine(reader.ReadLine());
+                file.CopyTo(ms);
+                var fileBytes = ms.ToArray();
+                s = Convert.ToBase64String(fileBytes);
+                // act on the Base64 data
             }
-            return result.ToString();
+
+            return s;
         }
+
+
     }
 }

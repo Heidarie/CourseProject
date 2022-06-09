@@ -1,3 +1,4 @@
+using CoursesAPI;
 using CoursesAPI.Models;
 using CoursesAPI.Models.DbEntity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -69,6 +70,7 @@ builder.Services.AddAuthentication(options =>
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
         };
     });
+
 
 builder.Services.AddControllers().AddNewtonsoftJson();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
