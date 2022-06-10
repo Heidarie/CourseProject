@@ -56,10 +56,11 @@ namespace CoursesAPI
             foreach(Loan loan in carLoans)
             {
                 DateTime observer = loan.LoanFrom;
-                for(int day = 1; day <= (loan.LoanTo.Day - loan.LoanFrom.Day); day++)
+                int daysReseved = loan.LoanDaysSummary;
+                for(int day = 1; day <= daysReseved; day++)
                 {
                     dayModels.Add(modelBuilder.Build(observer));
-                    observer = observer.AddDays(day);
+                    observer = observer.AddDays(1);
                 }
             }
             return dayModels;
