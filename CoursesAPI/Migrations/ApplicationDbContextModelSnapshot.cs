@@ -68,7 +68,7 @@ namespace CoursesAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cars");
+                    b.ToTable("Cars", (string)null);
                 });
 
             modelBuilder.Entity("CoursesAPI.Models.Loan", b =>
@@ -99,7 +99,7 @@ namespace CoursesAPI.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Loans");
+                    b.ToTable("Loans", (string)null);
                 });
 
             modelBuilder.Entity("CoursesAPI.Models.User", b =>

@@ -17,7 +17,7 @@ namespace CoursesAPI.Models.Account
         [MaxLength (50)]
         public string FamilyName { get; set; }
         [Required(ErrorMessage = "Podaj numer pesel")]
-        public int PeselNumber { get; set; }
+        public long PeselNumber { get; set; }
         //[Required]
         //public RoleList Role { get; set; }
     }

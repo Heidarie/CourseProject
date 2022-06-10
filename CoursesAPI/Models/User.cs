@@ -10,7 +10,7 @@ namespace CoursesAPI.Models
         [Column(TypeName = "nvarchar(50)")]
         public string FamilyName { get; set; }
         [Column(TypeName = "integer")]
-        public int PeselNumber { get; set; }
+        public long PeselNumber { get; set; }
         public string? RefreshToken { get; set; }
         public DateTime RefreshTokenExpiryTime { get; set; }
         
