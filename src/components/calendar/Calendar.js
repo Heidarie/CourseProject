@@ -11,6 +11,7 @@ const CalendarPicker = ({disabledDays, onDateChange}) =>{
       });
 
       const handleCalendarChange = (selectedDayRange) => {
+        console.log(selectedDayRange)
         setSelectedDayRange(selectedDayRange)
         onDateChange(selectedDayRange);
       }

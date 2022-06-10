@@ -5,6 +5,7 @@ axios.defaults.withCredentials=true;
 
 export async function register(data){
     let fullUrl = url+"Authentication/register";
+    console.log(data)
     return new Promise((resolve,reject)=>
      axios.post(fullUrl,data,{
         headers: {
@@ -56,6 +57,37 @@ export async function login(data){
         }))
 }
 
+export async function CarList(){
+    let fullUrl = url+"Car/car-list"
+    return new Promise((resolve,reject)=>
+     axios.get(fullUrl,{
+        headers: {
+          'Content-Type': 'application/json',                        
+        },})
+        .then(res => {
+           resolve(res)
+        })
+        .catch(err => {
+            console.log(err);
+            reject(err)
+        }))
+}
+export async function getBrands(){
+    let fullUrl = url+"Car/get-car-brands"
+    return new Promise((resolve,reject)=>
+     axios.get(fullUrl,{
+        headers: {
+          'Content-Type': 'application/json',                        
+        },})
+        .then(res => {
+           resolve(res)
+        })
+        .catch(err => {
+            console.log(err);
+            reject(err)
+        }))
+}
+
 export async function getFlashcardsGroup(){
    
     return new Promise((resolve,reject)=>
@@ -70,7 +102,23 @@ export async function getFlashcardsGroup(){
             reject(err)
         }))
 }
-
+export async function addCar(data){
+    console.log(data)
+    return new Promise((resolve,reject)=>
+     axios.post("https://localhost:7218/api/Car/create-car",data,{
+        headers: {
+          'Content-Type': 'multipart/form-data',                        
+        }})
+        .then(res => {
+            
+           console.log(res)
+           resolve(res)
+        })
+        .catch(err => {
+            console.log(err);
+            reject(err)
+        }))
+}
 export async function addFlashcard(data){
     return new Promise((resolve,reject)=>
      api.post("FlashcardsGroups/create-flashcards",data)
@@ -85,9 +133,39 @@ export async function addFlashcard(data){
         }))
 }
 
+export async function makeReservation(data){
+    console.log(data)
+    return new Promise((resolve,reject)=>
+     api.post("Loan/create-reservation",data)
+        .then(res => {
+            
+           console.log(res)
+           resolve(res)
+        })
+        .catch(err => {
+            console.log(err);
+            reject(err)
+        }))
+}
+
+
 export async function getFlashcard(data){
     return new Promise((resolve,reject)=>
      api.get("FlashcardsGroups/"+data)
+        .then(res => {
+            
+           console.log(res)
+           resolve(res)
+        })
+        .catch(err => {
+            console.log(err);
+            reject(err)
+        }))
+}
+
+export async function getCalendar(data){
+    return new Promise((resolve,reject)=>
+     api.get("Loan/get-calendar/"+data)
         .then(res => {
             
            console.log(res)

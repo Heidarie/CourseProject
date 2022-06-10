@@ -2,7 +2,8 @@ import { Component } from "react";
 import { Form, Button, Row } from "react-bootstrap";
 import { Col } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-import { login, getCurrentUser } from "../../api/Api";
+import { login, getCurrentUser,addCar } from "../../api/Api";
+
 
 
 class AddCar extends Component {
@@ -16,7 +17,7 @@ class AddCar extends Component {
         FuelType:"",
         Gearbox:"",
         Drive:"",
-        Image:null
+        Image:null,
     }
   }
 
@@ -28,7 +29,29 @@ class AddCar extends Component {
 
   handleSubmit(event) {
     event.preventDefault()
-  
+    console.log(this.state)
+    const formData = new FormData()
+    formData.append('pricePerDay',this.state.PricePerDay)
+    formData.append('description',this.state.ShortDescription)
+    formData.append('brand',this.state.Brand)
+    formData.append('model',this.state.Model)
+    formData.append('fuelType',this.state.FuelType)
+    formData.append('gearbox',this.state.Gearbox)
+    formData.append('drive',this.state.Drive)
+    formData.append('image',this.state.Image)
+    formData.append('carCategory',"Sportowe")
+    console.log("-----"+formData)
+    addCar(
+      formData
+    ).then(res => {
+      if (res.status === 200) {
+       
+          this.props.history("/rent", { replace: true });
+        }
+    }).catch(err => {
+      console.log(err)
+    })
+    
 
   }
   handleChange = (e) => {
@@ -40,6 +63,7 @@ class AddCar extends Component {
 
   }
   handleChangePhoto = (event) => {
+    console.log( event.target.files[0])
     this.setState({
         Image: event.target.files[0]
     })

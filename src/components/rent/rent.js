@@ -1,27 +1,71 @@
 import { Component, useState } from "react";
 import { Form, Button, Row } from "react-bootstrap";
 import "./Rent.css";
-import { Col } from "react-bootstrap";
 import { } from "../../api/Api";
-import Cars from "../../jsonTestData/cars.json"
-import car from "./../../car.png"
 import Modal from "react-modal";
 import 'react-modern-calendar-datepicker/lib/DatePicker.css';
 import CalendarPicker from '../calendar/Calendar';
+import {CarList,getBrands,getCalendar, makeReservation} from "../../api/Api"
 
 class Rent extends Component {
     constructor(props) {
         super(props);
         this.state = {
+                cars:null,
+                loading:true,
                 isOpen:false,
-                dateRange:null
+                dateRange:null,
+                brands:null,
+                carId:null,
+                calendar:null,
         }
     }
 
    
 
+    componentDidMount(){
+        getBrands().then(res => {
+            if (res.status === 200) {
+                console.log(res.data)
+                this.setState({                   
+                    brands:res.data
+                })
+            }
+          }).catch(err => {
+            
+             console.log(err)
+           
+          })
+        CarList().then(res => {
+            if (res.status === 200) {
+                console.log(res.data)
+                this.setState({
+                    loading:false,
+                    cars:res.data
+                })
+            }
+          }).catch(err => {
+            
+             console.log(err)
+           
+          })
+    }
+
     handleSubmit = () => {
-        console.log(this.state.dateRange)
+  
+        makeReservation({
+            carId: this.state.carId,
+            loanFrom: new Date(this.state.dateRange.from.year+"-"+this.state.dateRange.from.month+"-"+this.state.dateRange.from.day+" 06:00:00"),
+            loanTo: new Date(this.state.dateRange.to.year+"-"+this.state.dateRange.to.month+"-"+this.state.dateRange.to.day+" 06:00:00")
+        }).then(res => {
+            if (res.status === 200) {
+            this.toggleModal()
+            }
+        }).catch(err => {
+            
+            console.log(err)
+          
+         })
         
     }
      
@@ -44,10 +88,27 @@ class Rent extends Component {
             isOpen:!this.state.isOpen
         })
     }
-
+    getCarCalendar=(id)=>{
+        getCalendar(id).then(res => {
+            if (res.status === 200) {
+                console.log(res.data)
+                this.setState({
+                    calendar:res.data,
+                    isOpen:true,
+                    carId:id
+                    
+                })
+            }
+          }).catch(err => {
+            
+             console.log(err)
+           
+          })
+    }
 
     render() {
-        return (
+        return (<>
+            {this.state.loading?(<h1>Loading</h1>):(
             <div className="Rent">
                 <div className="filters d-flex row justify-content-center py-5">
 
@@ -55,9 +116,12 @@ class Rent extends Component {
 
                         <Form.Select aria-label="Default select example">
                             <option>Marka</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                            {this.state.brands.map((y)=>{
+                                return(
+                                    <option value ={y}>{y}</option>
+                                )
+                            })}
+                           
                         </Form.Select>
                     </div>
                     <div className="col-md-2 col-5">
@@ -87,35 +151,35 @@ class Rent extends Component {
 
                 </div>
                 <div className="Cars row d-flex justify-content-center py-5">
-                    {Cars.map((x) => {
+                    {this.state.cars.map((x) => {
                         return (
                             <div className="row car">
                                 <div className="col-md-2">
                                     <div className="img-responsive">
-                                        <img className="rentCar" src={car}></img>
+                                        <img className="rentCar" src={`data:image/jpeg;base64,${x.imageString}`}></img>
                                     </div>
                                 </div>
 
-                                <div className="col-md-2">{<h2>{x.Brand} {x.Model}</h2>}<br />
+                                <div className="col-md-3">{<h2>{x.brand} {x.model}</h2>}<br />
                                     <div style={{ padding: "10px" }}>
-                                        <Row>Napęd: {x.Drive}</Row>
-                                        <Row>Skrzynia biegów: {x.Gearbox} </Row>
-                                        <Row>Rodzaj paliwa: {x.FuelType} </Row>
+                                        <Row>Napęd: {x.drive}</Row>
+                                        <Row>Skrzynia biegów: {x.gearbox} </Row>
+                                        <Row>Rodzaj paliwa: {x.fuelType} </Row>
                                     </div>
                                 </div>
-                                <div className="col-md-6"><h3>Opis</h3>
-                                    {x.ShortDescription} </div>
+                                <div className="col-md-5"><h3>Opis</h3>
+                                    {x.description} </div>
 
                                 <div className="col-md-2 d-flex flex-column text-end">
                                     
                                     {
                                         <div>
-                                        <h2 className="price">{x.PricePerDay} zł</h2>
+                                        <h2 className="price">{x.pricePerDay} zł</h2>
                                         </div>
                                     }
                                     
                                     <div className="mt-auto">
-                                        <button className="btn btn-lg btn-block btn-outline-primary" onClick={()=>{this.toggleModal()}}>Wynajmij</button>
+                                        <button className="btn btn-lg btn-block btn-outline-primary" onClick={()=>{this.getCarCalendar(x.id)}}>Wynajmij</button>
                                     </div>
 
                                 </div>
@@ -160,7 +224,7 @@ class Rent extends Component {
                     <div className="modal-body">
                         <div className="col-md-12">
                             <div className="text-center">
-                                <CalendarPicker onDateChange={this.handleCalendar}/>
+                                <CalendarPicker disabledDays={this.state.calendar} onDateChange={this.handleCalendar}/>
                             </div>
                         </div>
                     </div>
@@ -179,7 +243,7 @@ class Rent extends Component {
                         </div>
                     </div>
                 </Modal>
-            </div>
+            </div>)}</>
         );
     }
 }

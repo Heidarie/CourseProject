@@ -11,7 +11,7 @@ const Navb = () => {
     <div>
       <Navbar bg="light" variant="light" expand="lg">
         <Container fluid>
-          <Navbar.Brand as={NavLink} to="/"><img className='logo' src={logo} />Kursy językowe</Navbar.Brand>
+          <Navbar.Brand as={NavLink} to="/">Wypożczyalnia samochodów</Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav
@@ -28,16 +28,13 @@ const Navb = () => {
               <Form className="d-flex">
                 {user ? (<>             
                   {user.includes("Admin") ? (<NavDropdown title={<span style={{ color: "white" }}>Panel Administratora</span>} id="navbarScrollingDropdown">
-                    <NavDropdown.Item as={NavLink} to="/Register">Stwórz użytkownika</NavDropdown.Item>
-                    <NavDropdown.Item as={NavLink} to="/Users">Zarządaj użytkownikami</NavDropdown.Item>
+                    
                     <NavDropdown.Divider />
                   </NavDropdown>
                   ) : (null)
                   }
-                  <NavDropdown title={<span style={{ color: "white" }}>Profil</span>} id="navbarScrollingDropdown">
+                  <NavDropdown title={<span style={{ color: "gray" }}>Profil</span>} id="navbarScrollingDropdown">
                     <NavDropdown.Item as={NavLink} to="/ChangePassword" >Zmień hasło</NavDropdown.Item>
-                    <NavDropdown.Item as={NavLink} to="/Profil" >Informacje o profilu</NavDropdown.Item>
-                    <NavDropdown.Item as={NavLink} to="/Payment" >Abonament</NavDropdown.Item>
                   </NavDropdown>
 
                   <Nav.Link href="/login" style={{ color: "red" }} className="nav-link" onClick={logOut}>

@@ -20,26 +20,26 @@ class Register extends Component {
       repassword: '',
       validationMessage: '',
       emailValidation: '',
-      type: 2
+      type: 2,
+      pesel:""
     }
   }
 
   validateForm() {
     return this.state.email.length > 0 && this.state.password.length > 4
       && this.state.emailValidation.length === 0 && this.state.repassword.length > 4
-      && this.state.name.length > 0 && this.state.surname.length > 0;
+      && this.state.name.length > 0 && this.state.surname.length > 0 && this.state.pesel.length==11;
   }
 
   handleSubmit(event) {
     event.preventDefault();
     if (this.state.type != 0) {
       register({
-        email: this.state.email,
-        password: this.state.password,
-        givenName: this.state.name,
-        familyName: this.state.surname,
-        role: this.state.type,
-        usr: [],
+        "email": this.state.email,
+        "password": this.state.password,
+        "givenName": this.state.name,
+        "familyName": this.state.surname,
+        "peselNumber": this.state.pesel
       }).then(res => {
         if (res.status === 200) {
           if (getCurrentUser() && getCurrentUser().includes("Admin")) {
@@ -170,6 +170,20 @@ class Register extends Component {
             </Row>
             <Row>
               <div className="validationMessage"></div>
+              <Row>
+              <Col sm>
+                <Form.Group size="lg" >
+                  <Form.Label>Pesel</Form.Label>
+                  <Form.Control
+                    id="pesel"
+                    type="number"
+                    
+                    onChange={this.handleChange}
+                  />
+                  <div className="validationMessage">{this.state.pesel.length}</div>
+                </Form.Group>
+              </Col>
+            </Row>
               <Row>
                 {this.state.usr && this.state.usr.includes("Admin") ? (
                   <Col sm>
