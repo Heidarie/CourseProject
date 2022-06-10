@@ -21,7 +21,7 @@ namespace CoursesAPI
         public IEnumerable<CarModel> GetCarList()
         {
             List<Car> cars = dbContext.Cars.ToList();
-            return cars.Where(x => x.CarStatus != (int)CarStatus.Loaned).Select(x => new CarModel(x)).ToList();
+            return cars.Select(x => new CarModel(x)).ToList();
         }
 
         public List<string> GetCarBrandsList()

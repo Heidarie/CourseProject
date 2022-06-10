@@ -10,6 +10,7 @@ namespace CoursesAPI.Models.Cars
 
         public CarModel(Car car)
         {
+            Id = car.Id;
             PricePerDay = car.PricePerDay;
             Description = car.Description;
             Brand = car.Brand;
@@ -20,7 +21,7 @@ namespace CoursesAPI.Models.Cars
             ImageString = car.Image;
             CarCategory = car.CarCategory;
         }
-
+        public Guid Id { get; set; }
         public float PricePerDay { get; set; }
         public string Description { get; set; }
         public string Brand { get; set; }
