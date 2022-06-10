@@ -57,7 +57,7 @@ namespace CoursesAPI
             {
                 DateTime observer = loan.LoanFrom;
                 int daysReseved = loan.LoanDaysSummary;
-                for(int day = 1; day <= daysReseved; day++)
+                for(int day = 0; day <= daysReseved; day++)
                 {
                     dayModels.Add(modelBuilder.Build(observer));
                     observer = observer.AddDays(1);
