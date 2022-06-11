@@ -67,7 +67,7 @@ namespace CoursesAPI.Controllers
         [Authorize(Roles = "Teacher")]
         public IEnumerable<TeacherTrainingModel> GetTeacherSchedule() // zwraca listę szkoleń zaakceptowanych przez usera w roli TEACHER
         {
-            return DatabaseManager.GetUserTrainingResevations(this.UserEmail);
+            return DatabaseManager.GetUserSchedule(this.UserEmail);
         }
     }
 }
