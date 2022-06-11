@@ -10,5 +10,6 @@ namespace CoursesAPI.Models.Teacher
         }
         public CarModel Car { get; set; }
         public List<DateTime> TrainingDay { get; set; }
+        public string ReservationId { get; set; }
     }
 }

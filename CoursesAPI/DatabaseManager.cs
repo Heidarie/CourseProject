@@ -132,6 +132,7 @@ namespace CoursesAPI
         {
             User? user = this.GetUser(userMail);
             IEnumerable<Car> cars = GetAssignedCars();
+            List<AcceptedTraining> acceptedTrainings = dbContext.AcceptedTrainings.Include(x => x.Loan).Include(x => x.User).ToList();
             foreach (var teacherCar in user.TeacherCars)
             {
                 foreach (var car in cars)
@@ -149,11 +150,13 @@ namespace CoursesAPI
             {
                 foreach (var loan in loans)
                 {
+                    if (acceptedTrainings.Any(x => x.Loan.Id == loan.Id))
+                        continue;
                     if (loan.Car.Id != teacherCar.Car.Id)
                         continue;
                     TeacherTrainingModel ttModel = model.FirstOrDefault(x => x.Car == new CarModel(loan.Car));
                     if (ttModel == null)
-                        ttModel = new TeacherTrainingModel() { Car = new CarModel(loan.Car)};
+                        ttModel = new TeacherTrainingModel() { Car = new CarModel(loan.Car), ReservationId = loan.Id.ToString()};
                     foreach (var l in loans.Where(x => x.Car.Id == ttModel.Car.Id))
                     {
                         ttModel.TrainingDay.Add(loan.LoanFrom);
@@ -162,6 +165,53 @@ namespace CoursesAPI
                 }
             }
             return model;
+        }
+
+        public IEnumerable<TeacherTrainingModel> GetUserSchedule(string userMail)
+        {
+            User? user = this.GetUser(userMail);
+            IEnumerable<Car> cars = GetAssignedCars();
+            List<AcceptedTraining> acceptedTrainings = dbContext.AcceptedTrainings.Include(x => x.Loan).Include(x => x.User).Where(x => x.User.Id == user.Id).ToList();
+            foreach (var teacherCar in user.TeacherCars)
+            {
+                foreach (var car in cars)
+                {
+                    foreach (var constraint in car.Teacher)
+                    {
+                        if (teacherCar.Id == constraint.Id)
+                            teacherCar.Car = car;
+                    }
+                }
+            }
+            IEnumerable<Loan> loans = dbContext.Loans.Where(x => x.LoanDaysSummary == 0).ToList();
+            List<TeacherTrainingModel> model = new List<TeacherTrainingModel>();
+            foreach (var teacherCar in user.TeacherCars)
+            {
+                foreach (var loan in loans)
+                {
+                    if (!acceptedTrainings.Any(x => x.Loan.Id == loan.Id))
+                        continue;
+                    if (loan.Car.Id != teacherCar.Car.Id)
+                        continue;
+                    TeacherTrainingModel ttModel = model.FirstOrDefault(x => x.Car == new CarModel(loan.Car));
+                    if (ttModel == null)
+                        ttModel = new TeacherTrainingModel() { Car = new CarModel(loan.Car), ReservationId = loan.Id.ToString() };
+                    foreach (var l in loans.Where(x => x.Car.Id == ttModel.Car.Id))
+                    {
+                        ttModel.TrainingDay.Add(loan.LoanFrom);
+                    }
+                    model.Add(ttModel);
+                }
+            }
+            return model;
+        }
+
+        public bool AcceptTraining(string userMail, string reservationId)
+        {
+            User? user = this.GetUser(userMail);
+            Loan loan = dbContext.Loans.FirstOrDefault(x => x.Id.ToString() == reservationId);
+            return this.SaveToDatabase(new AcceptedTraining() { Id = Guid.NewGuid(),Loan = loan, User = user });
+
         }
 
         private Car GetTeacherCar(string id)

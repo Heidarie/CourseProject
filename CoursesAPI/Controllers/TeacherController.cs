@@ -42,5 +42,15 @@ namespace CoursesAPI.Controllers
                 return Ok();
             return BadRequest();
         }
+
+        [HttpPost]
+        [Route("accept/{reservationId}")]
+        public IActionResult AcceptTraining(string reservationId)
+        {
+            bool result = DatabaseManager.AcceptTraining(this.UserEmail, reservationId);
+            if (result)
+                return Ok();
+            return BadRequest();
+        }
     }
 }

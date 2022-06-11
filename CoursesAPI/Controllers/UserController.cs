@@ -43,12 +43,22 @@ namespace CoursesAPI.Controllers
         }
 
         [HttpGet]
-        [Route("get-schedule")]
+        [Route("get-teacher-reservation")]
         [Authorize(Roles = "Teacher")]
-        public IEnumerable<TeacherTrainingModel> GetTeacherTrainingResevations()
+        public IEnumerable<TeacherTrainingModel> GetUserTrainingResevations()
         {
             return DatabaseManager.GetUserTrainingResevations(this.UserEmail);
         }
+
+        [HttpGet]
+        [Route("get-schedule")]
+        [Authorize(Roles = "Teacher")]
+        public IEnumerable<TeacherTrainingModel> GetTeacherSchedule()
+        {
+            return DatabaseManager.GetUserTrainingResevations(this.UserEmail);
+        }
+
+
 
         [HttpPost]
         [Route("change-password")]

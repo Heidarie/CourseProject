@@ -24,6 +24,7 @@ namespace CoursesAPI.Models.DbEntity
         public DbSet<Car> Cars { get; set; } // Auta
         public DbSet<Loan> Loans { get; set; } // Wypożyczenia
         public DbSet<TeacherCar> TeacherCars { get; set; }
+        public DbSet<AcceptedTraining> AcceptedTrainings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
