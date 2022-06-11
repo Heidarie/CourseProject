@@ -22,7 +22,7 @@ const Navb = () => {
               <Nav.Link as={NavLink} to="/Rent">Wynajem</Nav.Link>
               <Nav.Link as={NavLink} to="/AddCar">Dodaj samochód</Nav.Link>
               <Nav.Link as={NavLink} to="/AddInstructor">Dodaj konto instruktora</Nav.Link>
-              <NavDropdown title={<span style={{ color: "gray" }}>Panel instrukstora</span>} id="navbarScrollingDropdown">
+              <NavDropdown title={<span style={{ color: "gray" }}>Panel instruktora</span>} id="navbarScrollingDropdown">
                     <NavDropdown.Item as={NavLink} to="/InstructorCars" >Samochody</NavDropdown.Item>
                     <NavDropdown.Item as={NavLink} to="/InstructorTrainings" >Szkolenia</NavDropdown.Item>
               </NavDropdown>

@@ -12,6 +12,7 @@
     border:0.5px solid gray;
     margin-bottom: 1%;
     padding: 1%;
+    border-radius: 25px;
 }
 .rentCar{width: 100%;
 height: 100%;}
