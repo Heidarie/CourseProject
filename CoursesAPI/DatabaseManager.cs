@@ -124,25 +124,42 @@ namespace CoursesAPI
         public IEnumerable<UserResevationModel> GetUserReservation(string userMail)
         {
             User? user = this.GetUser(userMail);
-            IEnumerable<Loan> loans = dbContext.Loans.Where(x => x.User == user).ToList();
+            IEnumerable<Loan> loans = dbContext.Loans.Include(x => x.Car).Where(x => x.User == user).ToList();
             return loans.Select(x => new UserResevationModel(x)).ToList();
         }
 
         public IEnumerable<TeacherTrainingModel> GetUserTrainingResevations(string userMail)
         {
             User? user = this.GetUser(userMail);
-            IEnumerable<Loan> loans = dbContext.Loans.Where(x => x.User == user && x.LoanDaysSummary == 0).ToList();
-            List<TeacherTrainingModel> model = new List<TeacherTrainingModel>();
-            foreach (var loan in loans)
+            IEnumerable<Car> cars = GetAssignedCars();
+            foreach (var teacherCar in user.TeacherCars)
             {
-                TeacherTrainingModel ttModel = model.FirstOrDefault(x => x.Car == loan.Car);
-                if (ttModel == null)
-                    ttModel = new TeacherTrainingModel() { Car = loan.Car };
-                foreach(var l in loans.Where(x => x.Car == ttModel.Car))
+                foreach (var car in cars)
                 {
-                    ttModel.TrainingDay.Add(loan.LoanFrom);
+                    foreach (var constraint in car.Teacher)
+                    {
+                        if (teacherCar.Id == constraint.Id)
+                            teacherCar.Car = car;
+                    }
                 }
-                model.Add(ttModel);
+            }
+            IEnumerable<Loan> loans = dbContext.Loans.Where(x => x.LoanDaysSummary == 0).ToList();
+            List<TeacherTrainingModel> model = new List<TeacherTrainingModel>();
+            foreach (var teacherCar in user.TeacherCars)
+            {
+                foreach (var loan in loans)
+                {
+                    if (loan.Car.Id != teacherCar.Car.Id)
+                        continue;
+                    TeacherTrainingModel ttModel = model.FirstOrDefault(x => x.Car == new CarModel(loan.Car));
+                    if (ttModel == null)
+                        ttModel = new TeacherTrainingModel() { Car = new CarModel(loan.Car)};
+                    foreach (var l in loans.Where(x => x.Car.Id == ttModel.Car.Id))
+                    {
+                        ttModel.TrainingDay.Add(loan.LoanFrom);
+                    }
+                    model.Add(ttModel);
+                }
             }
             return model;
         }

@@ -1,14 +1,16 @@
-﻿namespace CoursesAPI.Models.Users
+﻿using CoursesAPI.Models.Cars;
+
+namespace CoursesAPI.Models.Users
 {
     public class UserResevationModel
     {
         public UserResevationModel(Loan loan)
         {
-            Car = loan.Car;
+            Car = new CarModel(loan.Car);
             From = loan.LoanFrom;
             To = loan.LoanTo;
         }
-        public Car Car { get; set; }
+        public CarModel Car { get; set; }
         public DateTime From { get; set; }
         public DateTime To { get; set; }
 

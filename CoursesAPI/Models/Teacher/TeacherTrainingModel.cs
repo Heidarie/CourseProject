@@ -1,12 +1,14 @@
-﻿namespace CoursesAPI.Models.Teacher
+﻿using CoursesAPI.Models.Cars;
+
+namespace CoursesAPI.Models.Teacher
 {
     public class TeacherTrainingModel
     {
         public TeacherTrainingModel()
         {
-
+            TrainingDay = new List<DateTime>();
         }
-        public Car Car { get; set; }
+        public CarModel Car { get; set; }
         public List<DateTime> TrainingDay { get; set; }
     }
 }
