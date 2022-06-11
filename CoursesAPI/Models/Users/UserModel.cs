@@ -8,12 +8,14 @@
             GivenName = user.GivenName;
             FamilyName = user.FamilyName;
             Email = user.Email;
+            RemainingTokens = user.RemainingTrainingNumber;
         }
         public string Id { get; set; }
         public string GivenName { get; set; }
         public string FamilyName { get; set; }
         public string Role { get; set; }
         public string Email { get; set; }
+        public int RemainingTokens { get; set; }
 
     }
 }
