@@ -23,6 +23,7 @@ namespace CoursesAPI.Models.DbEntity
         public DbSet<User> Users { get; set; }
         public DbSet<Car> Cars { get; set; } // Auta
         public DbSet<Loan> Loans { get; set; } // Wypożyczenia
+        public DbSet<TeacherCar> TeacherCars { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -33,6 +34,16 @@ namespace CoursesAPI.Models.DbEntity
             builder.Entity<Loan>()
                 .HasOne(x => x.Car)
                 .WithMany(e => e.Loans);
+
+            builder.Entity<TeacherCar>()
+                .HasOne(x => x.Car)
+                .WithMany(e => e.Teacher)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<TeacherCar>()
+                .HasOne(x => x.User)
+                .WithMany(e => e.TeacherCars)
+                .OnDelete(DeleteBehavior.NoAction);
 
             base.OnModelCreating(builder);
         }

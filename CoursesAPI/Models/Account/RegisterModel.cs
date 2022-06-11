@@ -18,7 +18,6 @@ namespace CoursesAPI.Models.Account
         public string FamilyName { get; set; }
         [Required(ErrorMessage = "Podaj numer pesel")]
         public long PeselNumber { get; set; }
-        //[Required]
-        //public RoleList Role { get; set; }
+        public RoleList Role { get; set; } = RoleList.User;
     }
 }

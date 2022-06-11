@@ -8,6 +8,10 @@ namespace CoursesAPI.Models
         {
             [Display(Name = "Administrator")]
             Admin = 0,
+            [Display(Name = "Nauczyciel")]
+            Teacher = 1,
+            [Display(Name = "Użytkownik")]
+            User = 2
         }
 
         public enum CarStatus : int
@@ -23,6 +27,12 @@ namespace CoursesAPI.Models
             Hatchback,
             Kombi,
             Limuzyna
+        }
+
+        public enum RentalType
+        {
+            Wypożyczenie = 0,
+            Szkolenie = 1
         }
     }
 }

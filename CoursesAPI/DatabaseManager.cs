@@ -20,7 +20,7 @@ namespace CoursesAPI
 
         public IEnumerable<CarModel> GetCarList()
         {
-            List<Car> cars = dbContext.Cars.ToList();
+            List<Car> cars = this.GetCars();
             return cars.Select(x => new CarModel(x)).ToList();
         }
 
@@ -36,12 +36,10 @@ namespace CoursesAPI
             return carBrands;
         }
 
-        public async Task<bool> CreateCar(CarModel model)
+        public bool CreateCar(CarModel model)
         {
             Car car = model.CreateCarEntity();
-            dbContext.Add(car);
-            var res = await dbContext.SaveChangesAsync();
-            return res == 1 ? true : false;
+            return this.SaveToDatabase(car);
         }
 
         public List<DayModel> GetCarReservationDays(string id)
@@ -66,17 +64,100 @@ namespace CoursesAPI
             return dayModels;
         }
 
-        public bool CreateReservation(string userMail,ReservationModel model)
+        public bool CreateReservation(string userMail,ReservationModel model, RentalType rentalType)
         {
             LoanBuilder loanBuilder = new LoanBuilder();
-            Car car = dbContext.Cars.FirstOrDefault(x => x.Id.ToString() == model.CarId);
+            Car car = this.GetCar(model.CarId);
             if (car == null)
                 return false;
-            User user = dbContext.Users.FirstOrDefault(x => x.Email == userMail);
-            Loan loan = loanBuilder.Build(model, user, car);
-            dbContext.Loans.Add(loan);
-            int res = dbContext.SaveChanges();
-            return res == 1 ? true : false;
+            User user = this.GetUser(userMail);
+            Loan loan = loanBuilder.Build(model, user, car, rentalType);
+            return this.SaveToDatabase(loan);
+        }
+
+        public IEnumerable<CarModel> GetAvailableCarList()
+        {
+            List<Car> cars = this.GetCars();
+            IEnumerable<CarModel> carModels = cars.Where(x => x.Teacher.Count() < 4).Select(x => new CarModel(x)).ToList();
+            return carModels;
+        }
+
+        public bool AssignTeacherToCar(string userMail, string carId)
+        {
+            User? user = this.GetUser(userMail);
+            Car? car = this.GetCar(carId);
+            if (user == null || car == null)
+                return false;
+            TeacherCar teacherCar = new TeacherCar(car,user);
+            return this.SaveToDatabase(teacherCar);
+
+        }
+        
+        public bool RemoveCarFromTeacher(string userMail, string carId)
+        {
+            User? user = this.GetUser(userMail);
+            foreach(var car in user.TeacherCars)
+            {
+                car.Car = this.GetTeacherCar(car.Id.ToString());
+            }
+            if (user == null)
+                return false;
+            dbContext.TeacherCars.Remove(user.TeacherCars.First(x => x.Car.Id.ToString() == carId));
+            return this.SaveToDatabase();
+
+        }
+        public IEnumerable<CarModel> GetTeacherCarList(string userMail)
+        {
+            User? user = this.GetUser(userMail);
+            IEnumerable<Car> cars = GetAssignedCars();
+            foreach(var car in cars)
+            {
+                foreach(var teacher in car.Teacher)
+                {
+                    if (teacher.User == user)
+                        yield return new CarModel(car);
+                }
+            }
+        }
+
+        private Car GetTeacherCar(string id)
+        {
+            TeacherCar car = dbContext.TeacherCars.Include(x => x.Car).Single(x => x.Id.ToString() == id);
+            return car.Car;
+        }
+
+        private IEnumerable<Car> GetAssignedCars()
+        {
+            List<Car> cars = this.GetCars();
+            foreach (Car car in cars)
+            {
+                if (car.Teacher != null)
+                    yield return car;
+            }
+        }
+
+        private List<Car> GetCars()
+        {
+            List<Car> cars = dbContext.Cars.Include(x => x.Teacher).ToList();
+            return cars;
+        }
+
+        private User? GetUser(string mail)
+        {
+            return dbContext.Users.Include(x => x.TeacherCars).FirstOrDefault(x => x.Email == mail);
+        }
+
+        private Car? GetCar(string carId)
+        {
+            return dbContext.Cars.FirstOrDefault(x => x.Id.ToString() == carId);
+        }
+
+        private bool SaveToDatabase(object model = null)
+        {
+            if(model != null)
+                dbContext.Add(model);
+            return dbContext.SaveChanges() > 0 ? true : false;
+
         }
 
         public void Dispose()

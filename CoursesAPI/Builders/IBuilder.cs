@@ -26,4 +26,11 @@ namespace CoursesAPI.Builders
         public void Update(K paramOne, L paramTwo, S paramThree);
         public void Update(T model, K paramOne, L paramTwo, S paramThree);
     }
+
+    public interface IBuilder<T, K, L, S, M> : IBuilder<T> where T : class
+    {
+        public T Build(K paramOne, L paramTwo, S paramThree, M paramFour);
+        public void Update(K paramOne, L paramTwo, S paramThree, M paramFour);
+        public void Update(T model, K paramOne, L paramTwo, S paramThree, M paramFour);
+    }
 }

@@ -4,6 +4,7 @@ using CoursesAPI.Models.DbEntity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoursesAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220611083617_teachercars")]
+    partial class teachercars
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,10 +110,6 @@ namespace CoursesAPI.Migrations
             modelBuilder.Entity("CoursesAPI.Models.TeacherCar", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CarId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("UserId")
@@ -119,8 +117,6 @@ namespace CoursesAPI.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CarId");
 
                     b.HasIndex("UserId");
 
@@ -364,8 +360,8 @@ namespace CoursesAPI.Migrations
             modelBuilder.Entity("CoursesAPI.Models.TeacherCar", b =>
                 {
                     b.HasOne("CoursesAPI.Models.Car", "Car")
-                        .WithMany("Teacher")
-                        .HasForeignKey("CarId")
+                        .WithOne("Teacher")
+                        .HasForeignKey("CoursesAPI.Models.TeacherCar", "Id")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -435,7 +431,8 @@ namespace CoursesAPI.Migrations
                 {
                     b.Navigation("Loans");
 
-                    b.Navigation("Teacher");
+                    b.Navigation("Teacher")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("CoursesAPI.Models.User", b =>

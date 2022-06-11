@@ -108,9 +108,12 @@ namespace CoursesAPI.Controllers
             if (!result.Succeeded)
                 return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "Błąd podczas tworzenia profilu użytkownika. Spróbuj ponownie później." });
 
-            //if (!await _roleManager.RoleExistsAsync(model.Role.ToString()))
-            //    await _roleManager.CreateAsync(new IdentityRole(model.Role.ToString()));
-            //await _userManager.AddToRoleAsync(user, model.Role.ToString());
+            if (model.Role != null)
+            {
+                if (!await _roleManager.RoleExistsAsync(model.Role.ToString()))
+                    await _roleManager.CreateAsync(new IdentityRole(model.Role.ToString()));
+                await _userManager.AddToRoleAsync(user, model.Role.ToString());
+            }
 
 
             return Ok(new Response { Status = "Success", Message = "Użytkownik został utworzony. Zaloguj się na konto." });
@@ -139,8 +142,8 @@ namespace CoursesAPI.Controllers
 
             if (!await _roleManager.RoleExistsAsync(RoleList.Admin.ToString()))
                 await _roleManager.CreateAsync(new IdentityRole(RoleList.Admin.ToString()));
-            //if (!await _roleManager.RoleExistsAsync(RoleList.Teacher.ToString()))
-            //    await _roleManager.CreateAsync(new IdentityRole(RoleList.Teacher.ToString()));
+            if (!await _roleManager.RoleExistsAsync(RoleList.Teacher.ToString()))
+                await _roleManager.CreateAsync(new IdentityRole(RoleList.Teacher.ToString()));
             //if (!await _roleManager.RoleExistsAsync(RoleList.Student.ToString()))
             //    await _roleManager.CreateAsync(new IdentityRole(RoleList.Student.ToString()));
 

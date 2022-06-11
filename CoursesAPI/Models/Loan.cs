@@ -11,6 +11,7 @@ namespace CoursesAPI.Models
         public DateTime LoanTo { get; set; }
         public int LoanDaysSummary { get; set; }
         public Car Car { get; set; } 
+        public int RentalType { get; set; }
 
     }
 }

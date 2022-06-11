@@ -9,17 +9,17 @@ namespace CoursesAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LoanController : BaseController
+    public class TrainingController : BaseController
     {
         [Authorize]
         [HttpPost]
         [Route("create-reservation")]
         public IActionResult CreateReservation([FromBody] ReservationModel model)
         {
-            bool result = DatabaseManager.CreateReservation(this.UserEmail,model,Enums.RentalType.Wypożyczenie);
+            bool result = DatabaseManager.CreateReservation(this.UserEmail, model,Enums.RentalType.Szkolenie);
             DatabaseManager.Dispose();
             if (result)
-                return Ok(new Response { Status = "Created", Message = "Rezerwacja przyjęta"});
+                return Ok(new Response { Status = "Created", Message = "Rezerwacja przyjęta" });
             return BadRequest(new Response { Status = "Faulted", Message = "Wystąpił błąd podczas tworzenia rezerwacji" });
         }
 

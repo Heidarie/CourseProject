@@ -20,6 +20,7 @@ namespace CoursesAPI.Models.Cars
             Drive = car.Drive;
             ImageString = car.Image;
             CarCategory = car.CarCategory;
+            TrainingAvailable = car.Teacher == null ? false : true;
         }
         public Guid Id { get; set; }
         public float PricePerDay { get; set; }
@@ -37,6 +38,7 @@ namespace CoursesAPI.Models.Cars
             private set { imageString = value; } // private ponieważ jest ustawiany na podst. zmiennej interfejsowej Image
         }
         public string CarCategory { get; set; }
+        public bool TrainingAvailable { get; set; }
 
         public string ConvertImage(IFormFile image)
         {

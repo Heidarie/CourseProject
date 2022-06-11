@@ -14,7 +14,9 @@ namespace CoursesAPI.Models
         public string? RefreshToken { get; set; }
         public DateTime RefreshTokenExpiryTime { get; set; }
         
-        public IEnumerable<Loan> Loans { get; set; }
+        public IEnumerable<Loan>? Loans { get; set; }
+
+        public IEnumerable<TeacherCar>? TeacherCars { get; set; }
 
     }
 }
