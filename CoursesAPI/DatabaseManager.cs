@@ -196,7 +196,7 @@ namespace CoursesAPI
                     }
                 }
             }
-            IEnumerable<Loan> loans = dbContext.Loans.Where(x => x.LoanDaysSummary == 0).ToList();
+            IEnumerable<Loan> loans = dbContext.Loans.Where(x => x.LoanDaysSummary == 0).OrderBy(x => x.LoanFrom).ToList();
             List<TeacherTrainingModel> model = new List<TeacherTrainingModel>();
             foreach (var teacherCar in user.TeacherCars)
             {
