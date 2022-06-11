@@ -20,7 +20,7 @@ namespace CoursesAPI.Models.Cars
             Drive = car.Drive;
             ImageString = car.Image;
             CarCategory = car.CarCategory;
-            TrainingAvailable = car.Teacher == null ? false : true;
+            TrainingAvailable = car.Teacher.Count() == 0 ? false : true;
         }
         public Guid Id { get; set; }
         public float PricePerDay { get; set; }
