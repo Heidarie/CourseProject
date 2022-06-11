@@ -45,7 +45,7 @@ namespace CoursesAPI.Controllers
         [HttpGet]
         [Route("get-reservation")]
         [Authorize(Roles = "Teacher")]
-        public IEnumerable<TeacherTrainingModel> GetUserTrainingResevations()
+        public IEnumerable<TeacherTrainingModel> GetTeacherTrainingResevations()
         {
             return DatabaseManager.GetUserTrainingResevations(this.UserEmail);
         }
