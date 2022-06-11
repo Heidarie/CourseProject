@@ -5,6 +5,8 @@ using CoursesAPI.Models.Calendar;
 using CoursesAPI.Models.Cars;
 using CoursesAPI.Models.DbEntity;
 using CoursesAPI.Models.Loans;
+using CoursesAPI.Models.Teacher;
+using CoursesAPI.Models.Users;
 using Microsoft.EntityFrameworkCore;
 using static CoursesAPI.Models.Enums;
 
@@ -104,7 +106,6 @@ namespace CoursesAPI
                 return false;
             dbContext.TeacherCars.Remove(user.TeacherCars.First(x => x.Car.Id.ToString() == carId));
             return this.SaveToDatabase();
-
         }
         public IEnumerable<CarModel> GetTeacherCarList(string userMail)
         {
@@ -118,6 +119,20 @@ namespace CoursesAPI
                         yield return new CarModel(car);
                 }
             }
+        }
+
+        public IEnumerable<UserResevationModel> GetUserReservation(string userMail)
+        {
+            User? user = this.GetUser(userMail);
+            IEnumerable<Loan> loans = dbContext.Loans.Where(x => x.User == user).ToList();
+            return loans.Select(x => new UserResevationModel(x)).ToList();
+        }
+
+        public IEnumerable<TeacherTrainingModel> GetUserTrainingResevations(string userMail)
+        {
+            User? user = this.GetUser(userMail);
+            IEnumerable<Loan> loans = dbContext.Loans.Where(x => x.User == user && x.LoanDaysSummary == 0).ToList();
+            return loans.Select(x => new TeacherTrainingModel(x)).ToList();
         }
 
         private Car GetTeacherCar(string id)

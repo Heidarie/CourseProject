@@ -1,5 +1,6 @@
 ﻿using CoursesAPI.Models;
 using CoursesAPI.Models.DbEntity;
+using CoursesAPI.Models.Teacher;
 using CoursesAPI.Models.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -23,18 +24,31 @@ namespace CoursesAPI.Controllers
             _userManager = userManager;
         }
 
-        //[HttpGet]
-        //public async Task<UserModel> GetUserDetails()
-        //{
+        [HttpGet]
+        public async Task<UserModel> GetUserDetails()
+        {
+            User user = await _userManager.FindByEmailAsync(this.UserEmail);
 
-        //    User user = await _userManager.FindByEmailAsync(this.UserEmail);
-            
-        //    //UserModel userModel = new UserModel(user) { Role = await GetRole(user)};
+            UserModel userModel = new UserModel(user) { Role = await GetRole(user) };
 
-            
+            return userModel;
+        }
 
-        //    return userModel;
-        //}
+        [HttpGet]
+        [Route("get-reservation")]
+        [Authorize(Roles ="User")]
+        public IEnumerable<UserResevationModel> GetUserResevations()
+        {
+            return DatabaseManager.GetUserReservation(this.UserEmail);
+        }
+
+        [HttpGet]
+        [Route("get-reservation")]
+        [Authorize(Roles = "Teacher")]
+        public IEnumerable<TeacherTrainingModel> GetUserTrainingResevations()
+        {
+            return DatabaseManager.GetUserTrainingResevations(this.UserEmail);
+        }
 
         [HttpPost]
         [Route("change-password")]
@@ -51,7 +65,7 @@ namespace CoursesAPI.Controllers
 
         [HttpGet]
         [Route("users-list")]
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<List<UserModel>> GetUsersList()
         {
             User admin = await _userManager.FindByEmailAsync(this.UserEmail);
@@ -64,7 +78,7 @@ namespace CoursesAPI.Controllers
 
         [HttpPost]
         [Route("delete-user/{id}")]
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<List<UserModel>> RemoveUser(string id)
         {
             try
@@ -79,14 +93,12 @@ namespace CoursesAPI.Controllers
             }
         }
 
-        //public async Task<string> GetRole(User user)
-        //{
-        //    var userRoles = await _userManager.GetRolesAsync(user);
+        private async Task<string> GetRole(User user)
+        {
+            var userRoles = await _userManager.GetRolesAsync(user);
 
-        //    return userRoles.Contains(RoleList.Admin.ToString()) ? "Administrator" :
-        //        userRoles.Contains(RoleList.Teacher.ToString()) ? "Prowadzący" :
-        //        userRoles.Contains("StudentPremium") ? "Student" :
-        //        userRoles.Contains(RoleList.Student.ToString()) ? RoleList.Student.ToString() : "";
-        //}
+            return userRoles.Contains(RoleList.Admin.ToString()) ? "Administrator" :
+                userRoles.Contains(RoleList.Teacher.ToString()) ? "Instruktor" : "Użytkownik";
+        }
     }
 }

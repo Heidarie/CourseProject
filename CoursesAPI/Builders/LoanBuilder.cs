@@ -35,7 +35,7 @@ namespace CoursesAPI.Builders
 
         private int CalculateLoaningDays(DateTime LoanFrom, DateTime LoanTo)
         {
-            return (int)(LoanTo- LoanFrom).TotalDays != 0 ? (int)(LoanTo - LoanFrom).TotalDays : 1;
+            return (int)(LoanTo- LoanFrom).TotalDays;
         }
 
         public void Update(Loan model, ReservationModel paramOne, User paramTwo, Car paramThree, RentalType rentalType)
