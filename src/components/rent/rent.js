@@ -196,7 +196,6 @@ class Rent extends Component {
                                         <img className="rentCar" src={`data:image/jpeg;base64,${x.imageString}`}></img>
                                     </div>
                                 </div>
-
                                 <div className="col-md-3">{<h2>{x.brand} {x.model}</h2>}<br />
                                     <div style={{ padding: "10px" }}>
                                         <Row>Napęd: {x.drive}</Row>
@@ -205,25 +204,22 @@ class Rent extends Component {
                                     </div>
                                 </div>
                                 <div className="col-md-5"><h3>Opis</h3>
-                                    {x.description} </div>
-
+                                    <div className="col-md-12 text-wrap">
+                                        {x.description}
+                                    </div>
+                                </div>
                                 <div className="col-md-2 d-flex flex-column text-end">
-                                    
                                     {
                                         <div>
-                                        <h2 className="price">{x.pricePerDay} zł</h2>
+                                            <h2 className="price">{x.pricePerDay} zł</h2>
                                         </div>
                                     }
-                                    
                                     <div className="mt-auto">
-                                        <button className="btn btn-lg btn-block btn-outline-primary" disabled={!x.trainingAvailable} onClick={()=>{this.getCarCalendar(x.id,true)}}>Jazda doszkalająca</button>
-                                        <button className="btn btn-lg btn-block btn-outline-primary" onClick={()=>{this.getCarCalendar(x.id,false)}}>Wynajmij</button>
+                                        <button className="btn btn-md btn-block btn-outline-success my-1 mx-1" hidden={!x.trainingAvailable} onClick={() => { this.getCarCalendar(x.id, true) }}>Jazda doszkalająca</button>
+                                        <button className="btn btn-md btn-block btn-outline-primary my-1 mx-1" onClick={() => { this.getCarCalendar(x.id, false) }}>Wynajmij</button>
                                     </div>
-
                                 </div>
-
                             </div>
-
                         )
                     })}
 
