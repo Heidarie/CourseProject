@@ -1,4 +1,5 @@
 ﻿using CoursesAPI.Models.Cars;
+using CoursesAPI.Models.Teacher;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -51,6 +52,22 @@ namespace CoursesAPI.Controllers
             if (result)
                 return Ok();
             return BadRequest();
+        }
+
+        [HttpGet]
+        [Route("get-reservations-request")]
+        [Authorize(Roles = "Teacher")]
+        public IEnumerable<TeacherTrainingModel> GetUserTrainingResevations() // zwraca listę zgłoszeń na szkolenia
+        {
+            return DatabaseManager.GetUserTrainingResevations(this.UserEmail);
+        }
+
+        [HttpGet]
+        [Route("get-schedule")]
+        [Authorize(Roles = "Teacher")]
+        public IEnumerable<TeacherTrainingModel> GetTeacherSchedule() // zwraca listę szkoleń zaakceptowanych przez usera w roli TEACHER
+        {
+            return DatabaseManager.GetUserTrainingResevations(this.UserEmail);
         }
     }
 }

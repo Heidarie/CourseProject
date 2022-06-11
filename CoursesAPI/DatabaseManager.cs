@@ -74,7 +74,12 @@ namespace CoursesAPI
                 return false;
             User user = this.GetUser(userMail);
             Loan loan = loanBuilder.Build(model, user, car, rentalType);
-            return this.SaveToDatabase(loan);
+            if (this.SaveToDatabase(loan))
+            {
+                user.RemainingTrainingNumber -= 1;
+                return this.SaveToDatabase();
+            }
+            return false;
         }
 
         public IEnumerable<CarModel> GetAvailableCarList(string userMail)
@@ -127,6 +132,13 @@ namespace CoursesAPI
             User? user = this.GetUser(userMail);
             IEnumerable<Loan> loans = dbContext.Loans.Include(x => x.Car).Where(x => x.User == user).ToList();
             return loans.Select(x => new UserResevationModel(x)).ToList();
+        }
+
+        public bool AddTokens(string userMail,int tokenNumber)
+        {
+            User? user = this.GetUser(userMail);
+            user.RemainingTrainingNumber = tokenNumber;
+            return this.SaveToDatabase();
         }
 
         public IEnumerable<TeacherTrainingModel> GetUserTrainingResevations(string userMail)

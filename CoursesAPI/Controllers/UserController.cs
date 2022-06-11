@@ -25,7 +25,7 @@ namespace CoursesAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<UserModel> GetUserDetails()
+        public async Task<UserModel> GetUserDetails() //zwraca profil zalogowanego usera
         {
             User user = await _userManager.FindByEmailAsync(this.UserEmail);
 
@@ -37,27 +37,10 @@ namespace CoursesAPI.Controllers
         [HttpGet]
         [Route("get-reservation")]
         [Authorize(Roles ="User")]
-        public IEnumerable<UserResevationModel> GetUserResevations()
+        public IEnumerable<UserResevationModel> GetUserResevations() // zwraca rezerwacje usera w roli USER
         {
             return DatabaseManager.GetUserReservation(this.UserEmail);
         }
-
-        [HttpGet]
-        [Route("get-teacher-reservation")]
-        [Authorize(Roles = "Teacher")]
-        public IEnumerable<TeacherTrainingModel> GetUserTrainingResevations()
-        {
-            return DatabaseManager.GetUserTrainingResevations(this.UserEmail);
-        }
-
-        [HttpGet]
-        [Route("get-schedule")]
-        [Authorize(Roles = "Teacher")]
-        public IEnumerable<TeacherTrainingModel> GetTeacherSchedule()
-        {
-            return DatabaseManager.GetUserTrainingResevations(this.UserEmail);
-        }
-
 
 
         [HttpPost]
@@ -101,6 +84,29 @@ namespace CoursesAPI.Controllers
             {
                 throw;
             }
+        }
+
+        [HttpGet]
+        [Route("check-tokens")]
+        [Authorize]
+        public async Task<IActionResult> CheckNumberTrainingTokens()
+        {
+            User user = await _userManager.FindByEmailAsync(this.UserEmail);
+            if (await _userManager.IsInRoleAsync(user, RoleList.Admin.ToString()))
+                return Ok();
+            if (user.RemainingTrainingNumber > 0)
+                return Ok();
+            return BadRequest();
+        }
+
+        [HttpPost]
+        [Route("add-tokens/{number}")]
+        [Authorize]
+        public IActionResult AddTrainingTokens(int number)
+        {
+            if (DatabaseManager.AddTokens(this.UserEmail, number))
+                return Ok();
+            return BadRequest();
         }
 
         private async Task<string> GetRole(User user)
