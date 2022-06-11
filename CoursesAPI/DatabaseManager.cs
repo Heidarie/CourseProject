@@ -77,10 +77,11 @@ namespace CoursesAPI
             return this.SaveToDatabase(loan);
         }
 
-        public IEnumerable<CarModel> GetAvailableCarList()
+        public IEnumerable<CarModel> GetAvailableCarList(string userMail)
         {
             List<Car> cars = this.GetCars();
-            IEnumerable<CarModel> carModels = cars.Where(x => x.Teacher.Count() < 4).Select(x => new CarModel(x)).ToList();
+            User? user = this.GetUser(userMail);
+            IEnumerable<CarModel> carModels = cars.Where(x => x.Teacher.Count() < 4 && !x.Teacher.Any(x => x.User.Id == user.Id)).Select(x => new CarModel(x)).ToList();
             return carModels;
         }
 

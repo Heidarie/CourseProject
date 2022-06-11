@@ -14,7 +14,7 @@ namespace CoursesAPI.Controllers
         [Route("available-cars")]
         public IEnumerable<CarModel> GetAvailableCarList()
         {
-            return DatabaseManager.GetAvailableCarList();
+            return DatabaseManager.GetAvailableCarList(this.UserEmail);
         }
         [HttpGet]
         [Route("teacher-cars")]
