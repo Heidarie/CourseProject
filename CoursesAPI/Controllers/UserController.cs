@@ -109,6 +109,15 @@ namespace CoursesAPI.Controllers
             return BadRequest();
         }
 
+        [HttpGet]
+        [Route("get-tokens")]
+        [Authorize]
+        public async Task<int> GetTokens()
+        {
+            User user = await _userManager.FindByEmailAsync(this.UserEmail);
+            return user.RemainingTrainingNumber;
+        }
+
         private async Task<string> GetRole(User user)
         {
             var userRoles = await _userManager.GetRolesAsync(user);
