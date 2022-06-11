@@ -72,6 +72,59 @@ export async function CarList(){
             reject(err)
         }))
 }
+
+export async function AvailableCarList(){
+    
+    return new Promise((resolve,reject)=>
+     api.get("Teacher/available-cars")
+        .then(res => {
+           resolve(res)
+        })
+        .catch(err => {
+            console.log(err);
+            reject(err)
+        }))
+}
+export async function TeacherCarList(){
+    
+    return new Promise((resolve,reject)=>
+     api.get("Teacher/teacher-cars")
+        .then(res => {
+           resolve(res)
+        })
+        .catch(err => {
+            console.log(err);
+            reject(err)
+        }))
+}
+
+export async function getReservationsRequest(){
+    
+    return new Promise((resolve,reject)=>
+     api.get("Teacher/get-reservations-request")
+        .then(res => {
+           resolve(res)
+        })
+        .catch(err => {
+            console.log(err);
+            reject(err)
+        }))
+}
+
+export async function getSchedule(){
+    
+    return new Promise((resolve,reject)=>
+     api.get("Teacher/get-schedule")
+        .then(res => {
+           resolve(res)
+        })
+        .catch(err => {
+            console.log(err);
+            reject(err)
+        }))
+}
+
+
 export async function getBrands(){
     let fullUrl = url+"Car/get-car-brands"
     return new Promise((resolve,reject)=>
@@ -88,13 +141,11 @@ export async function getBrands(){
         }))
 }
 
-export async function getFlashcardsGroup(){
+export async function accpectReservation(data){
    
     return new Promise((resolve,reject)=>
-     api.get("FlashcardsGroups")
+     api.post("Teacher/accept/"+data)
         .then(res => {
-            
-           console.log(res)
            resolve(res)
         })
         .catch(err => {
@@ -102,6 +153,7 @@ export async function getFlashcardsGroup(){
             reject(err)
         }))
 }
+
 export async function addCar(data){
     console.log(data)
     return new Promise((resolve,reject)=>
@@ -119,9 +171,11 @@ export async function addCar(data){
             reject(err)
         }))
 }
-export async function addFlashcard(data){
+
+export async function createTrainingReservation(data){
+
     return new Promise((resolve,reject)=>
-     api.post("FlashcardsGroups/create-flashcards",data)
+     api.post("Training/create-reservation",data)
         .then(res => {
             
            console.log(res)
@@ -132,6 +186,7 @@ export async function addFlashcard(data){
             reject(err)
         }))
 }
+
 
 export async function makeReservation(data){
     console.log(data)
@@ -147,11 +202,9 @@ export async function makeReservation(data){
             reject(err)
         }))
 }
-
-
-export async function getFlashcard(data){
+export async function TeacherAddCar(data){
     return new Promise((resolve,reject)=>
-     api.get("FlashcardsGroups/"+data)
+     api.post("Teacher/assign/"+data)
         .then(res => {
             
            console.log(res)
@@ -162,6 +215,21 @@ export async function getFlashcard(data){
             reject(err)
         }))
 }
+export async function TeacherRemoveCar(data){
+    return new Promise((resolve,reject)=>
+     api.post("Teacher/remove/"+data)
+        .then(res => {
+            
+           console.log(res)
+           resolve(res)
+        })
+        .catch(err => {
+            console.log(err);
+            reject(err)
+        }))
+}
+
+
 
 export async function getCalendar(data){
     return new Promise((resolve,reject)=>
@@ -176,6 +244,26 @@ export async function getCalendar(data){
             reject(err)
         }))
 }
+
+export async function getCalendarTraining(data){
+    return new Promise((resolve,reject)=>
+     api.get("Training/get-calendar/"+data)
+        .then(res => {
+            
+           console.log(res)
+           resolve(res)
+        })
+        .catch(err => {
+            console.log(err);
+            reject(err)
+        }))
+}
+
+
+
+
+
+
 export async function getQuizGroup(){
    
     return new Promise((resolve,reject)=>

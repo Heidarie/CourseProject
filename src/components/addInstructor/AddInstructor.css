@@ -1,0 +1,14 @@
+.registerFields{
+    width:50%;
+    margin: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+}
+.validationMessage{
+    color:red;
+    min-height: 25px;
+    
+}

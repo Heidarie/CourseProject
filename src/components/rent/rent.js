@@ -1,11 +1,12 @@
 import { Component, useState } from "react";
 import { Form, Button, Row } from "react-bootstrap";
 import "./Rent.css";
-import { } from "../../api/Api";
+import { getCalendarTraining } from "../../api/Api";
 import Modal from "react-modal";
 import 'react-modern-calendar-datepicker/lib/DatePicker.css';
 import CalendarPicker from '../calendar/Calendar';
-import {CarList,getBrands,getCalendar, makeReservation} from "../../api/Api"
+import CalendarPicker2 from '../calendar/Calendar2';
+import {CarList,getBrands,getCalendar, makeReservation,createTrainingReservation} from "../../api/Api"
 
 class Rent extends Component {
     constructor(props) {
@@ -18,6 +19,7 @@ class Rent extends Component {
                 brands:null,
                 carId:null,
                 calendar:null,
+                isTraining:false,
         }
     }
 
@@ -52,7 +54,7 @@ class Rent extends Component {
     }
 
     handleSubmit = () => {
-  
+        if(!this.state.isTraining){
         makeReservation({
             carId: this.state.carId,
             loanFrom: new Date(this.state.dateRange.from.year+"-"+this.state.dateRange.from.month+"-"+this.state.dateRange.from.day+" 06:00:00"),
@@ -65,12 +67,28 @@ class Rent extends Component {
             
             console.log(err)
           
-         })
+         })}
+         if(this.state.isTraining){
+            createTrainingReservation({
+                carId: this.state.carId,
+                loanFrom: new Date(this.state.dateRange.from.year+"-"+this.state.dateRange.from.month+"-"+this.state.dateRange.from.day+" 06:00:00"),
+                loanTo: new Date(this.state.dateRange.to.year+"-"+this.state.dateRange.to.month+"-"+this.state.dateRange.to.day+" 06:00:00")
+            }).then(res => {
+                if (res.status === 200) {
+                this.toggleModal()
+                }
+            }).catch(err => {
+                
+                console.log(err)
+              
+             })}
+            
         
     }
      
 
     handleCalendar = (callback) => {
+        console.log(callback)
         this.setState({
             dateRange: callback
         });
@@ -88,14 +106,15 @@ class Rent extends Component {
             isOpen:!this.state.isOpen
         })
     }
-    getCarCalendar=(id)=>{
-        getCalendar(id).then(res => {
+    getCarCalendar=(id,type)=>{
+        if(!type){getCalendar(id).then(res => {
             if (res.status === 200) {
                 console.log(res.data)
                 this.setState({
                     calendar:res.data,
                     isOpen:true,
-                    carId:id
+                    carId:id,
+                    isTraining:false
                     
                 })
             }
@@ -103,7 +122,25 @@ class Rent extends Component {
             
              console.log(err)
            
-          })
+          })}
+          else{
+            getCalendarTraining(id).then(res => {
+                if (res.status === 200) {
+                    console.log(res.data)
+                    this.setState({
+                        calendar:res.data,
+                        isOpen:true,
+                        carId:id,
+                        isTraining:true
+                        
+                    })
+                }
+              }).catch(err => {
+                
+                 console.log(err)
+               
+              })
+          }
     }
 
     render() {
@@ -179,7 +216,8 @@ class Rent extends Component {
                                     }
                                     
                                     <div className="mt-auto">
-                                        <button className="btn btn-lg btn-block btn-outline-primary" onClick={()=>{this.getCarCalendar(x.id)}}>Wynajmij</button>
+                                        <button className="btn btn-lg btn-block btn-outline-primary" disabled={!x.trainingAvailable} onClick={()=>{this.getCarCalendar(x.id,true)}}>Jazda doszkalająca</button>
+                                        <button className="btn btn-lg btn-block btn-outline-primary" onClick={()=>{this.getCarCalendar(x.id,false)}}>Wynajmij</button>
                                     </div>
 
                                 </div>
@@ -224,7 +262,12 @@ class Rent extends Component {
                     <div className="modal-body">
                         <div className="col-md-12">
                             <div className="text-center">
+                                {this.state.isTraining?(<>
+                                <CalendarPicker2 disabledDays={this.state.calendar} onDateChange={this.handleCalendar}/>
+                                </>):<>
                                 <CalendarPicker disabledDays={this.state.calendar} onDateChange={this.handleCalendar}/>
+                                </>}
+                                
                             </div>
                         </div>
                     </div>

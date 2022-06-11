@@ -13,6 +13,9 @@ import Payment from './components/Payment';
 import Profil from './components/Profil/Profil';
 import Rent from './components/rent/rent';
 import AddCar from './components/addCar/AddCar';
+import InstructorCars from './components/InstructorCars/InstructorCars';
+import AddInstructor from './components/addInstructor/AddInstructor';
+import InstructorTrainings from './components/InstructorTrainings/InstructorTrainings';
 
 function App() {
 
@@ -34,6 +37,9 @@ function App() {
           <Route path="/Profil/" element={<Profil history={history}/>} />
           <Route path="/Rent/" element={<Rent history={history}/>} />
           <Route path="/AddCar/" element={<AddCar history={history}/>} />
+          <Route path="/InstructorCars/" element={<InstructorCars history={history}/>} />
+          <Route path="/AddInstructor/" element={<AddInstructor history={history}/>} />
+          <Route path="/InstructorTrainings/" element={<InstructorTrainings history={history}/>} />
     </Routes>
     </div>
     </Col>
