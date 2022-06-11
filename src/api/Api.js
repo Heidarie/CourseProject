@@ -85,6 +85,33 @@ export async function AvailableCarList(){
             reject(err)
         }))
 }
+
+export async function BuyTokensAPI(data){
+    
+    return new Promise((resolve,reject)=>
+     api.post("User/add-tokens/"+data)
+        .then(res => {
+           resolve(res)
+        })
+        .catch(err => {
+            console.log(err);
+            reject(err)
+        }))
+}
+
+export async function CheckTokens(){
+    
+    return new Promise((resolve,reject)=>
+     api.get("User/get-tokens")
+        .then(res => {
+           resolve(res)
+        })
+        .catch(err => {
+            console.log(err);
+            reject(err)
+        }))
+}
+
 export async function TeacherCarList(){
     
     return new Promise((resolve,reject)=>

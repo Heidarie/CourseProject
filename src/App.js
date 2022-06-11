@@ -16,6 +16,7 @@ import AddCar from './components/addCar/AddCar';
 import InstructorCars from './components/InstructorCars/InstructorCars';
 import AddInstructor from './components/addInstructor/AddInstructor';
 import InstructorTrainings from './components/InstructorTrainings/InstructorTrainings';
+import BuyTokens from './components/buyTokens/BuyTokens';
 
 function App() {
 
@@ -40,6 +41,7 @@ function App() {
           <Route path="/InstructorCars/" element={<InstructorCars history={history}/>} />
           <Route path="/AddInstructor/" element={<AddInstructor history={history}/>} />
           <Route path="/InstructorTrainings/" element={<InstructorTrainings history={history}/>} />
+          <Route path="/BuyTokens/" element={<BuyTokens history={history}/>} />
     </Routes>
     </div>
     </Col>
