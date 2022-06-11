@@ -43,7 +43,7 @@ namespace CoursesAPI.Controllers
         }
 
         [HttpGet]
-        [Route("get-reservation")]
+        [Route("get-schedule")]
         [Authorize(Roles = "Teacher")]
         public IEnumerable<TeacherTrainingModel> GetTeacherTrainingResevations()
         {

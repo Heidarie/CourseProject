@@ -2,12 +2,11 @@
 {
     public class TeacherTrainingModel
     {
-        public TeacherTrainingModel(Loan loan)
+        public TeacherTrainingModel()
         {
-            Car = loan.Car;
-            TrainingDay = loan.LoanFrom;
+
         }
         public Car Car { get; set; }
-        public DateTime TrainingDay { get; set; }
+        public List<DateTime> TrainingDay { get; set; }
     }
 }

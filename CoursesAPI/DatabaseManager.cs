@@ -132,7 +132,19 @@ namespace CoursesAPI
         {
             User? user = this.GetUser(userMail);
             IEnumerable<Loan> loans = dbContext.Loans.Where(x => x.User == user && x.LoanDaysSummary == 0).ToList();
-            return loans.Select(x => new TeacherTrainingModel(x)).ToList();
+            List<TeacherTrainingModel> model = new List<TeacherTrainingModel>();
+            foreach (var loan in loans)
+            {
+                TeacherTrainingModel ttModel = model.FirstOrDefault(x => x.Car == loan.Car);
+                if (ttModel == null)
+                    ttModel = new TeacherTrainingModel() { Car = loan.Car };
+                foreach(var l in loans.Where(x => x.Car == ttModel.Car))
+                {
+                    ttModel.TrainingDay.Add(loan.LoanFrom);
+                }
+                model.Add(ttModel);
+            }
+            return model;
         }
 
         private Car GetTeacherCar(string id)
