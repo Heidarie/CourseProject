@@ -23,7 +23,8 @@ namespace CoursesAPI.Refactors
 
 
             SmtpClient smtpClient = new SmtpClient();
-            await smtpClient.ConnectAsync("smtp.gmail.com", 587, false);
+            smtpClient.CheckCertificateRevocation = false;
+            await smtpClient.ConnectAsync("smtp.gmail.com", 587, MailKit.Security.SecureSocketOptions.Auto);
             await smtpClient.AuthenticateAsync("javaprojektkursy@gmail.com", "qQ!23456");
             await smtpClient.SendAsync(message);
             await smtpClient.DisconnectAsync(true);

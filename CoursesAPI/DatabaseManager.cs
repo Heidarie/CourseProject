@@ -78,12 +78,13 @@ namespace CoursesAPI
             if (this.SaveToDatabase(loan))
             {
                 user.RemainingTrainingNumber -= 1;
-                if (this.SaveToDatabase())
+                if (this.SaveToDatabase() && loan.LoanDaysSummary == 0)
                 {
                     this.SendMailToTeacher(car, loan);
                     MailFactory.SendMail(user, "Twoja rezerwacja została zgłoszona. Po przyjęciu rezerwacji otrzymasz wiadomość z danymi instruktora, który będzie Cię szkolił.");
                     return true;
                 }
+                else return true;
             }
             return false;
         }
