@@ -21,7 +21,9 @@ namespace CoursesAPI.Extensions
                 Image = model.Image.ReadAsString(),
                 CarStatus = model.GetStatusId(CarStatus.Waiting),
                 //jeśli jakimś cudem nie zostanie przekazany kategoria to podstawiamy puste
-                CarCategory = Enum.Parse(typeof(CarCategories), model.CarCategory).ToString() ?? "" 
+                CarCategory = Enum.Parse(typeof(CarCategories), model.CarCategory).ToString() ?? "",
+                YTMovie = model.YTMovie
+                
             };
 
             return car;
