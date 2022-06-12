@@ -86,6 +86,20 @@ export async function AvailableCarList(){
         }))
 }
 
+export async function GetUserReservations(){
+    
+    return new Promise((resolve,reject)=>
+     api.get("User/get-reservation")
+        .then(res => {
+           resolve(res)
+        })
+        .catch(err => {
+            console.log(err);
+            reject(err)
+        }))
+}
+
+
 export async function BuyTokensAPI(data){
     
     return new Promise((resolve,reject)=>

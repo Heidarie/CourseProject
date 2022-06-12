@@ -38,7 +38,7 @@ const Navb = () => {
                   ) : (null)
                   }
                   <NavDropdown title={<span style={{ color: "gray" }}>Profil</span>} id="navbarScrollingDropdown">
-                  <NavDropdown.Item as={NavLink} to="/Profil" >Profil</NavDropdown.Item>
+                  <NavDropdown.Item as={NavLink} to="/Profil" >Moje rezerwacje</NavDropdown.Item>
                   <NavDropdown.Item as={NavLink} to="/BuyTokens" >Wykup kursy</NavDropdown.Item>
                     <NavDropdown.Item as={NavLink} to="/ChangePassword" >Zmień hasło</NavDropdown.Item>
                   </NavDropdown>
