@@ -7,6 +7,7 @@ using CoursesAPI.Models.DbEntity;
 using CoursesAPI.Models.Loans;
 using CoursesAPI.Models.Teacher;
 using CoursesAPI.Models.Users;
+using CoursesAPI.Refactors;
 using Microsoft.EntityFrameworkCore;
 using static CoursesAPI.Models.Enums;
 
@@ -77,7 +78,12 @@ namespace CoursesAPI
             if (this.SaveToDatabase(loan))
             {
                 user.RemainingTrainingNumber -= 1;
-                return this.SaveToDatabase();
+                if (this.SaveToDatabase())
+                {
+                    this.SendMailToTeacher(car, loan);
+                    MailFactory.SendMail(user, "Twoja rezerwacja została zgłoszona. Po przyjęciu rezerwacji otrzymasz wiadomość z danymi instruktora, który będzie Cię szkolił.");
+                    return true;
+                }
             }
             return false;
         }
@@ -221,10 +227,14 @@ namespace CoursesAPI
 
         public bool AcceptTraining(string userMail, string reservationId)
         {
-            User? user = this.GetUser(userMail);
-            Loan loan = dbContext.Loans.FirstOrDefault(x => x.Id.ToString() == reservationId);
-            return this.SaveToDatabase(new AcceptedTraining() { Id = Guid.NewGuid(),Loan = loan, User = user });
-
+            User? teacher = this.GetUser(userMail);
+            Loan loan = dbContext.Loans.Include(x => x.User).FirstOrDefault(x => x.Id.ToString() == reservationId);
+            if(this.SaveToDatabase(new AcceptedTraining() { Id = Guid.NewGuid(),Loan = loan, User = teacher }))
+            {
+                MailFactory.SendMail(loan.User, String.Format("Twoje szkolenie poprowadzi {0} {1}", teacher.GivenName,teacher.FamilyName));
+                return true;
+            }
+            return false;
         }
 
         private Car GetTeacherCar(string id)
@@ -256,7 +266,7 @@ namespace CoursesAPI
 
         private Car? GetCar(string carId)
         {
-            return dbContext.Cars.FirstOrDefault(x => x.Id.ToString() == carId);
+            return dbContext.Cars.Include(x => x.Teacher).FirstOrDefault(x => x.Id.ToString() == carId);
         }
 
         private bool SaveToDatabase(object model = null)
@@ -265,6 +275,15 @@ namespace CoursesAPI
                 dbContext.Add(model);
             return dbContext.SaveChanges() > 0 ? true : false;
 
+        }
+
+        private void SendMailToTeacher(Car car, Loan loan)
+        {
+            foreach(var teacherCar in car.Teacher)
+            {
+                User? teacher = this.GetUser(teacherCar.User.Email);
+                MailFactory.SendMail(teacher, String.Format("Nowa rezerwacja szkolenia dla auta: {0} {1}, na dzień {2}", car.Brand, car.Model, loan.LoanFrom));
+            }
         }
 
         public void Dispose()

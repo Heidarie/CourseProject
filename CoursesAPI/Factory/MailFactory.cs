@@ -9,12 +9,12 @@ namespace CoursesAPI.Refactors
         public static async void SendMail(User model, string messageBody)
         {
             MimeMessage message = new MimeMessage();
-            MailboxAddress from = new MailboxAddress("Kursy", "NoReply.Kury@gmail.com");
+            MailboxAddress from = new MailboxAddress("Kursy", "NoReply.Kursy@gmail.com");
             message.From.Add(from);
             MailboxAddress to = new MailboxAddress(model.UserName, model.Email);
             message.To.Add(to);
 
-            message.Subject = "Platforma kursów";
+            message.Subject = "Szkolenia z jazd";
 
             BodyBuilder bodyBuilder = new BodyBuilder();
             bodyBuilder.HtmlBody = messageBody;
