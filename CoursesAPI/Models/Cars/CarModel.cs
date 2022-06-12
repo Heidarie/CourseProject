@@ -20,6 +20,7 @@ namespace CoursesAPI.Models.Cars
             Drive = car.Drive;
             ImageString = car.Image;
             CarCategory = car.CarCategory;
+            YTMovie = car.YTMovie;
             TrainingAvailable = car.Teacher.Count() == 0 ? false : true;
         }
         public Guid Id { get; set; }
@@ -30,6 +31,7 @@ namespace CoursesAPI.Models.Cars
         public string FuelType { get; set; }
         public string Gearbox { get; set; }
         public string Drive { get; set; }
+        public string YTMovie { get; set; }
         public IFormFile Image { get; set; }
         private string imageString;
         public string ImageString
