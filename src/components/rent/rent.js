@@ -302,7 +302,7 @@ class Rent extends Component {
                         <div className="col-md-6 text-end">
                             <button className="mt-auto btn btn-lg btn-block btn-outline-success"
                                 onClick={() => { this.handleSubmit() }}>
-                                Wynajmij i zapłać
+                                Zapłać
                             </button>
                         </div>
                        
