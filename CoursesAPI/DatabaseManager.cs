@@ -80,8 +80,8 @@ namespace CoursesAPI
                 user.RemainingTrainingNumber -= 1;
                 if (this.SaveToDatabase() && loan.LoanDaysSummary == 0)
                 {
-                    this.SendMailToTeacher(car, loan);
-                    MailFactory.SendMail(user, "Twoja rezerwacja została zgłoszona. Po przyjęciu rezerwacji otrzymasz wiadomość z danymi instruktora, który będzie Cię szkolił.");
+                    //this.SendMailToTeacher(car, loan);
+                    //MailFactory.SendMail(user, "Twoja rezerwacja została zgłoszona. Po przyjęciu rezerwacji otrzymasz wiadomość z danymi instruktora, który będzie Cię szkolił.");
                     return true;
                 }
                 else return true;
@@ -232,7 +232,7 @@ namespace CoursesAPI
             Loan loan = dbContext.Loans.Include(x => x.User).FirstOrDefault(x => x.Id.ToString() == reservationId);
             if(this.SaveToDatabase(new AcceptedTraining() { Id = Guid.NewGuid(),Loan = loan, User = teacher }))
             {
-                MailFactory.SendMail(loan.User, String.Format("Twoje szkolenie poprowadzi {0} {1}", teacher.GivenName,teacher.FamilyName));
+                //MailFactory.SendMail(loan.User, String.Format("Twoje szkolenie poprowadzi {0} {1}", teacher.GivenName,teacher.FamilyName));
                 return true;
             }
             return false;
