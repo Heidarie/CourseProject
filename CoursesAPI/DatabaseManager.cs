@@ -5,6 +5,7 @@ using CoursesAPI.Models.Calendar;
 using CoursesAPI.Models.Cars;
 using CoursesAPI.Models.DbEntity;
 using CoursesAPI.Models.Loans;
+using CoursesAPI.Models.Shared;
 using CoursesAPI.Models.Teacher;
 using CoursesAPI.Models.Users;
 using CoursesAPI.Refactors;
@@ -230,12 +231,26 @@ namespace CoursesAPI
         {
             User? teacher = this.GetUser(userMail);
             Loan loan = dbContext.Loans.Include(x => x.User).FirstOrDefault(x => x.Id.ToString() == reservationId);
-            if(this.SaveToDatabase(new AcceptedTraining() { Id = Guid.NewGuid(),Loan = loan, User = teacher }))
+            if (this.SaveToDatabase(new AcceptedTraining() { Id = Guid.NewGuid(), Loan = loan, User = teacher }))
             {
                 //MailFactory.SendMail(loan.User, String.Format("Twoje szkolenie poprowadzi {0} {1}", teacher.GivenName,teacher.FamilyName));
                 return true;
             }
             return false;
+        }
+
+        public IEnumerable<CarModel> FilterCars(FilterModel filter)
+        {
+            List<Car> cars = this.GetCars();
+            if (filter.Model != null)
+                cars = cars.Where(x => x.Model == filter.Model).ToList();
+            if (filter.Gearbox != null)
+                cars = cars.Where(x => x.Gearbox == filter.Gearbox).ToList();
+            if (filter.Drive != null)
+                cars = cars.Where(x => x.Drive == filter.Drive).ToList();
+            if (filter.FuelType != null)
+                cars = cars.Where(x => x.FuelType == filter.FuelType).ToList();
+            return cars.Select(x => new CarModel(x)).ToList();
         }
 
         private Car GetTeacherCar(string id)

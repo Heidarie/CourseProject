@@ -1,4 +1,5 @@
 ﻿using CoursesAPI.Models.Cars;
+using CoursesAPI.Models.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -31,6 +32,13 @@ namespace CoursesAPI.Controllers
             if(result)
                 return Ok();
             return NotFound();
+        }
+
+        [HttpGet]
+        [Route("filter")]
+        public IEnumerable<CarModel> FilterCars([FromBody] FilterModel filter)
+        {
+            return DatabaseManager.FilterCars(filter);
         }
     }
 }
