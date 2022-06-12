@@ -78,9 +78,9 @@ class InstructorTrainings extends Component {
                 <div className="Rent">
                     <h1 style={{ textAlign: "center" }}> Akceptowanie rezerwacji</h1>
                     {this.state.reservationsRequest.length === 0 ? (<h3 style={{ textAlign: "center" }}> Brak rezerwacji do zaakceptowania</h3>) : (<></>)}
-                        {this.state.reservationsRequest.map((x) => {
-                            return (
-                                <div className="Cars row d-flex justify-content-center py-5">
+                    {this.state.reservationsRequest.map((x) => {
+                        return (
+                            <div className="Cars row d-flex justify-content-center py-5">
                                 <div className="row car">
                                     <div className="col-md-2">
                                         <div className="img-responsive">
@@ -95,17 +95,13 @@ class InstructorTrainings extends Component {
                                             <Row>Rodzaj paliwa: {x.car.fuelType} </Row>
                                         </div>
                                     </div>
-
-
                                     <div className="col-md-7 d-flex flex-column text-end">
-
                                         {
                                             <div>
 
                                                 <h2 className="price"> Data: {x.trainingDay.toString().split("T")[0]} </h2>
                                             </div>
                                         }
-
                                         <div className="mt-auto">
 
                                             <button className="btn btn-lg btn-block btn-outline-success" onClick={() => { this.accpectReservation(x.reservationId) }}>Akceptuj</button>
@@ -115,52 +111,42 @@ class InstructorTrainings extends Component {
 
                                 </div>
 
-                    </div>
+                            </div>
+                        )
+                    })}
+                    <h1 style={{ textAlign: "center" }}> Terminarz</h1>
+                    {this.state.schedule.length === 0 ? (<h3 style={{ textAlign: "center" }}> Brak zaplanowanych kursów</h3>) : (<></>)}
+                    <div className="Cars row d-flex justify-content-center py-5">
+                        {this.state.schedule.map((x) => {
+                            return (
+                                <div className="row car">
+                                    <div className="col-md-2">
+                                        <div className="img-responsive">
+                                            <img className="rentCar" src={`data:image/jpeg;base64,${x.car.imageString}`}></img>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-3">{<h2>{x.car.brand} {x.car.model}</h2>}<br />
+                                        <div style={{ padding: "10px" }}>
+                                            <Row>Napęd: {x.car.drive}</Row>
+                                            <Row>Skrzynia biegów: {x.car.gearbox} </Row>
+                                            <Row>Rodzaj paliwa: {x.car.fuelType} </Row>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-7 d-flex flex-column text-end">
+                                        {
+                                            <div>
+
+                                                <h2 className="price"> Data: {x.trainingDay.toString().split("T")[0]} </h2>
+                                            </div>
+                                        }
+                                        <div className="mt-auto">
+                                        </div>
+                                    </div>
+                                </div>
                             )
                         })}
-                        <h1 style={{ textAlign: "center" }}> Terminarz</h1>
-                        {this.state.schedule.length === 0 ? (<h3 style={{ textAlign: "center" }}> Brak zaplanowanych kursów</h3>) : (<></>)}
-                        <div className="Cars row d-flex justify-content-center py-5">
-                            {this.state.schedule.map((x) => {
-                                return (
-                                    <div className="row car">
-                                        <div className="col-md-2">
-                                            <div className="img-responsive">
-                                                <img className="rentCar" src={`data:image/jpeg;base64,${x.car.imageString}`}></img>
-                                            </div>
-                                        </div>
 
-                                        <div className="col-md-3">{<h2>{x.car.brand} {x.car.model}</h2>}<br />
-                                            <div style={{ padding: "10px" }}>
-                                                <Row>Napęd: {x.car.drive}</Row>
-                                                <Row>Skrzynia biegów: {x.car.gearbox} </Row>
-                                                <Row>Rodzaj paliwa: {x.car.fuelType} </Row>
-                                            </div>
-                                        </div>
-
-
-                                        <div className="col-md-7 d-flex flex-column text-end">
-
-                                            {
-                                                <div>
-
-                                                    <h2 className="price"> Data: {x.trainingDay.toString().split("T")[0]} </h2>
-                                                </div>
-                                            }
-
-                                            <div className="mt-auto">
-
-
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                )
-                            })}
-
-                        </div>
+                    </div>
                 </div>)}</>
         );
     }
