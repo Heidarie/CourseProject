@@ -18,6 +18,7 @@ class AddCar extends Component {
         Gearbox:"",
         Drive:"",
         Image:null,
+        video:""
     }
   }
 
@@ -29,7 +30,7 @@ class AddCar extends Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    console.log(this.state)
+    console.log(this.state.video)
     const formData = new FormData()
     formData.append('pricePerDay',this.state.PricePerDay)
     formData.append('description',this.state.ShortDescription)
@@ -39,6 +40,7 @@ class AddCar extends Component {
     formData.append('gearbox',this.state.Gearbox)
     formData.append('drive',this.state.Drive)
     formData.append('image',this.state.Image)
+    formData.append('YTMovie',this.state.video)
     formData.append('carCategory',"Sportowe")
     console.log("-----"+formData)
     addCar(
@@ -128,6 +130,20 @@ class AddCar extends Component {
                 type="Number"
                 min="1"
                 value={this.state.PricePerDay}
+                onChange={this.handleChange}
+              />
+            </Form.Group>
+            <div className="validationMessage"></div>
+            </div>
+          </div>
+          <div className="row d-flex justify-content-center">
+            <div className="col-md-3 col-10">
+            <Form.Group>
+              <Form.Label>Wideo doszkalające</Form.Label>
+              <Form.Control
+                id="video"
+                type="text"
+                value={this.state.video}
                 onChange={this.handleChange}
               />
             </Form.Group>

@@ -99,6 +99,22 @@ export async function GetUserReservations(){
         }))
 }
 
+export async function CarFilter(data){
+    
+    return new Promise((resolve,reject)=>
+     axios.post(url+"Car/filter",data,{
+        headers: {
+          'Content-Type': 'application/json',                        
+        },})
+        .then(res => {
+           resolve(res)
+        })
+        .catch(err => {
+            console.log(err);
+            reject(err)
+        }))
+}
+
 
 export async function BuyTokensAPI(data){
     

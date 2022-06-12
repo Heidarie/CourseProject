@@ -6,7 +6,7 @@ import Modal from "react-modal";
 import 'react-modern-calendar-datepicker/lib/DatePicker.css';
 import CalendarPicker from '../calendar/Calendar';
 import CalendarPicker2 from '../calendar/Calendar2';
-import {CarList,getBrands,getCalendar, makeReservation,createTrainingReservation} from "../../api/Api"
+import {CarList,getBrands,getCalendar, makeReservation,createTrainingReservation,CarFilter} from "../../api/Api"
 
 class Rent extends Component {
     constructor(props) {
@@ -22,6 +22,10 @@ class Rent extends Component {
                 isTraining:false,
                 price:null,
                 priceTotal:0,
+                filterBrand:"",
+                filterDrive:"",
+                filterGearbox:"",
+                filterFuelType:""
         }
     }
 
@@ -54,7 +58,20 @@ class Rent extends Component {
            
           })
     }
-
+    findCar(){
+                CarFilter({
+                    "brand": this.state.filterBrand,
+                    "drive": this.state.filterDrive,
+                    "gearbox": this.state.filterGearbox,
+                    "fuelType": this.state.filterFuelType
+                }).then(res=>{
+                    if(res.status===200){
+                        this.setState({
+                            cars:res.data
+                        })
+                    }
+                })
+    }
     handleSubmit = () => {
         if(!this.state.isTraining){
         makeReservation({
@@ -172,7 +189,7 @@ class Rent extends Component {
 
                     <div className="col-md-2  col-5">
 
-                        <Form.Select aria-label="Default select example">
+                        <Form.Select id="filterBrand" onChange={this.handleChange} aria-label="Default select example">
                             <option>Marka</option>
                             {this.state.brands.map((y)=>{
                                 return(
@@ -183,30 +200,31 @@ class Rent extends Component {
                         </Form.Select>
                     </div>
                     <div className="col-md-2 col-5">
-                        <Form.Select aria-label="Default select example">
-                            <option>Napęd</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                        <Form.Select id="filterDrive" onChange={this.handleChange} aria-label="Default select example">
+                           
+                            <option key='s' hidden value >Napęd</option>
+                            <option value="Napęd 4x4">Napęd 4x4</option>
+                            <option value="Napęd na przednie koła">Napęd na przednie koła</option>
+                            <option value="Napęd na tylnie koła">Napęd na tylnie koła</option>
                         </Form.Select>
                     </div>
                     <div className="col-md-2  col-5">
-                        <Form.Select aria-label="Default select example">
-                            <option>Skrzynia biegów</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                        <Form.Select  id="filterGearbox" onChange={this.handleChange} aria-label="Default select example">                         
+                            <option key='Rodzaj paliwa' hidden value >Skrzynia biegów</option>
+                            <option value="Automatyczna">Automatyczna</option>
+                            <option value="Manualna">Manualna</option>
                         </Form.Select>
                     </div>
                     <div className="col-md-2  col-5">
-                        <Form.Select aria-label="Default select example">
-                            <option>Rodzaj paliwa</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                        <Form.Select id="filterFuelType" onChange={this.handleChange} aria-label="Default select example">
+                        <option key='Rodzaj paliwa' hidden value >Rodzaj paliwa</option>
+                            <option value="Benzyna">Benzyna</option>
+                            <option value="Diesel">Diesel</option>
+                            <option value="Elektryczny">Elektryczny</option>
                         </Form.Select>
-                    </div>
 
+                    </div>
+                 <div className="col-md-2 text-center"><button className="btn btn-md btn-block btn-outline-primary my-1 mx-1" onClick={()=>{this.findCar()}}>Szukaj</button></div>
                 </div>
                 <div className="Cars row d-flex justify-content-center py-5">
                     {this.state.cars.map((x) => {

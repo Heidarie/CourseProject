@@ -26,14 +26,7 @@ const Home = () => {
                     <p className="homeBoxLink"><a  className="homeBoxLink" href="https://www.google.pl/maps/place/Ratajczaka+3a,+61-813+Pozna%C5%84/@52.4029272,16.9227969,17.54z/data=!4m5!3m4!1s0x47045b3a11f8dda3:0x7dc2aaabaa05aee4!8m2!3d52.403227!4d16.9234883">Zobacz na mapie</a></p>
                 </div>
             </div>
-            <div className="row">
-                <img className="photoLeft col-md-4" style={{ padding: "0", marginTop: "2%" }} src={car} />
-
-                <div className="textRight col-md-6" style={{ marginTop: "2%" }}>
-                    <p className="homeBoxTitle">title</p>
-                    <div className="homeBoxContent">content</div>
-                </div>
-            </div>
+           
         </div>
     )
 }
