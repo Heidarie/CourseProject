@@ -9,7 +9,7 @@ namespace CoursesAPI.Models.Users
             Car = new CarModel(loan.Car);
             From = loan.LoanFrom;
             To = loan.LoanTo;
-            SummaryPrice = (loan.Car.PricePerDay * loan.LoanDaysSummary);
+            SummaryPrice = (loan.Car.PricePerDay * (loan.LoanDaysSummary == 0 ? 1 : loan.LoanDaysSummary));
         }
         public CarModel Car { get; set; }
         public DateTime From { get; set; }
