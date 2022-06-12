@@ -36,7 +36,7 @@ namespace CoursesAPI.Controllers
             return NotFound();
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("filter")]
         public IEnumerable<CarModel> FilterCars([FromBody] FilterModel filter)
         {
