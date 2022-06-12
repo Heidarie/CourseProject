@@ -20,6 +20,8 @@ class Rent extends Component {
                 carId:null,
                 calendar:null,
                 isTraining:false,
+                price:null,
+                priceTotal:0,
         }
     }
 
@@ -85,12 +87,23 @@ class Rent extends Component {
             
         
     }
-     
+
 
     handleCalendar = (callback) => {
+        
+        var numberOfDays=1;
+        if(callback.from != null && callback.to!=null){
+            var loanFrom= new Date(callback.from.year+"-"+callback.from.month+"-"+callback.from.day)
+            var loanTo= new Date(callback.to.year+"-"+callback.to.month+"-"+callback.to.day)
+             numberOfDays = (loanTo.getTime()-loanFrom.getTime()) / (1000*60*60*24) + 1
+             
+            
+        }
         console.log(callback)
         this.setState({
-            dateRange: callback
+            dateRange: callback,
+            priceTotal:this.state.price * numberOfDays
+            
         });
         
     }
@@ -102,11 +115,18 @@ class Rent extends Component {
         })
     }
     toggleModal = () =>{
+        if(this.state.isOpen){
+            this.setState({
+                priceTotal:0,
+                dateRange:null
+
+            })
+        }
         this.setState({
             isOpen:!this.state.isOpen
         })
     }
-    getCarCalendar=(id,type)=>{
+    getCarCalendar=(id,type,price)=>{
         if(!type){getCalendar(id).then(res => {
             if (res.status === 200) {
                 console.log(res.data)
@@ -114,8 +134,8 @@ class Rent extends Component {
                     calendar:res.data,
                     isOpen:true,
                     carId:id,
-                    isTraining:false
-                    
+                    isTraining:false,
+                    price:price
                 })
             }
           }).catch(err => {
@@ -131,7 +151,8 @@ class Rent extends Component {
                         calendar:res.data,
                         isOpen:true,
                         carId:id,
-                        isTraining:true
+                        isTraining:true,
+                        price:price
                         
                     })
                 }
@@ -215,8 +236,8 @@ class Rent extends Component {
                                         </div>
                                     }
                                     <div className="mt-auto">
-                                        <button className="btn btn-md btn-block btn-outline-success my-1 mx-1" hidden={!x.trainingAvailable} onClick={() => { this.getCarCalendar(x.id, true) }}>Jazda doszkalająca</button>
-                                        <button className="btn btn-md btn-block btn-outline-primary my-1 mx-1" onClick={() => { this.getCarCalendar(x.id, false) }}>Wynajmij</button>
+                                        <button className="btn btn-md btn-block btn-outline-success my-1 mx-1" hidden={!x.trainingAvailable} onClick={() => { this.getCarCalendar(x.id, true,x.pricePerDay) }}>Jazda doszkalająca</button>
+                                        <button className="btn btn-md btn-block btn-outline-primary my-1 mx-1" onClick={() => { this.getCarCalendar(x.id, false,x.pricePerDay) }}>Wynajmij</button>
                                     </div>
                                 </div>
                             </div>
@@ -267,7 +288,11 @@ class Rent extends Component {
                             </div>
                         </div>
                     </div>
+                    
                     <div className="row">
+                    <div className="col-md-12 text-end">
+                           <h3 style={{}}>Do zapłacenia: {this.state.priceTotal}</h3> 
+                        </div>
                         <div className="col-md-6 text-start">
                             <button className="mt-auto btn btn-lg btn-block btn-outline-danger"
                                 onClick={() => { this.toggleModal() }}>
@@ -277,9 +302,10 @@ class Rent extends Component {
                         <div className="col-md-6 text-end">
                             <button className="mt-auto btn btn-lg btn-block btn-outline-success"
                                 onClick={() => { this.handleSubmit() }}>
-                                Wynajmij
+                                Wynajmij i zapłać
                             </button>
                         </div>
+                       
                     </div>
                 </Modal>
             </div>)}</>
