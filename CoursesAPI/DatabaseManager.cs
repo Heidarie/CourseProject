@@ -242,8 +242,8 @@ namespace CoursesAPI
         public IEnumerable<CarModel> FilterCars(FilterModel filter)
         {
             List<Car> cars = this.GetCars();
-            if (filter.Model != null)
-                cars = cars.Where(x => x.Model == filter.Model).ToList();
+            if (filter.Brand != null)
+                cars = cars.Where(x => x.Brand == filter.Brand).ToList();
             if (filter.Gearbox != null)
                 cars = cars.Where(x => x.Gearbox == filter.Gearbox).ToList();
             if (filter.Drive != null)
