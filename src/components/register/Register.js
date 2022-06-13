@@ -52,9 +52,15 @@ class Register extends Component {
 
         }
       }).catch(err => {
+        if(err.response.status===400){
+          this.setState({
+            validationMessage: "Hasło musi posiadać co najmniej 5 znaków, oraz jedną małą literę"
+          })
+        }
+        else{
         this.setState({
           validationMessage: err.response.data.message
-        })
+        })}
       })
     }
     else {
@@ -180,7 +186,7 @@ class Register extends Component {
                     
                     onChange={this.handleChange}
                   />
-                  <div className="validationMessage">{this.state.pesel.length}</div>
+                  <div className="validationMessage"></div>
                 </Form.Group>
               </Col>
             </Row>

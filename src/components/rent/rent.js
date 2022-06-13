@@ -6,7 +6,7 @@ import Modal from "react-modal";
 import 'react-modern-calendar-datepicker/lib/DatePicker.css';
 import CalendarPicker from '../calendar/Calendar';
 import CalendarPicker2 from '../calendar/Calendar2';
-import {CarList,getBrands,getCalendar, makeReservation,createTrainingReservation,CarFilter} from "../../api/Api"
+import {CarList,getBrands,getCalendar, makeReservation,createTrainingReservation,CarFilter,getLocalAccessToken} from "../../api/Api"
 
 class Rent extends Component {
     constructor(props) {
@@ -32,6 +32,10 @@ class Rent extends Component {
    
 
     componentDidMount(){
+       if(getLocalAccessToken()===null){
+        
+        this.props.history("/Login", { replace: true })
+       }
         getBrands().then(res => {
             if (res.status === 200) {
                 console.log(res.data)

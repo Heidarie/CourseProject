@@ -20,15 +20,14 @@ code {
     margin: auto;
     height: 100%;
     min-height: 550px;
-    position: relative;    
+    position: relative;
+    overflow: hidden;
 }
 .sideMenu{
   width: 100%;
   background-color:yellowgreen;
 }
-.appCon{
-  min-height: calc(100vh - 50px);
-}
+
 .logo{
   width: 50px;
   height: 50px;

@@ -20,23 +20,28 @@ const Navb = () => {
               navbarScroll
             >
               <Nav.Link as={NavLink} to="/Rent">Wynajem</Nav.Link>
-              <Nav.Link as={NavLink} to="/AddCar">Dodaj samochód</Nav.Link>
-              <Nav.Link as={NavLink} to="/AddInstructor">Dodaj konto instruktora</Nav.Link>
-              <NavDropdown title={<span style={{ color: "gray" }}>Panel instruktora</span>} id="navbarScrollingDropdown">
-                    <NavDropdown.Item as={NavLink} to="/InstructorCars" >Samochody</NavDropdown.Item>
-                    <NavDropdown.Item as={NavLink} to="/InstructorTrainings" >Szkolenia</NavDropdown.Item>
-              </NavDropdown>
+              
+              {user ? (<>
+                {user.includes("Teacher")?(
+                  <NavDropdown title={<span style={{ color: "gray" }}>Panel instruktora</span>} id="navbarScrollingDropdown">
+                  <NavDropdown.Item as={NavLink} to="/InstructorCars" >Samochody</NavDropdown.Item>
+                  <NavDropdown.Item as={NavLink} to="/InstructorTrainings" >Szkolenia</NavDropdown.Item>
+                  </NavDropdown>
+                ):(<></>)}
+              </>):(<></>)}
+              {user ? (<>
+                {user.includes("Admin")?(
+                  <NavDropdown title={<span style={{ color: "gray" }}>Panel administratora</span>} id="navbarScrollingDropdown">
+                  <Nav.Link as={NavLink} to="/AddCar">Dodaj samochód</Nav.Link>
+                  <Nav.Link as={NavLink} to="/AddInstructor">Dodaj konto instruktora</Nav.Link>
+                  </NavDropdown>
+                ):(<></>)}
+              </>):(<></>)}
             </Nav>
             <Nav
               className="ms-auto" >
               <Form className="d-flex">
                 {user ? (<>             
-                  {user.includes("Admin") ? (<NavDropdown title={<span style={{ color: "white" }}>Panel Administratora</span>} id="navbarScrollingDropdown">
-                    
-                    <NavDropdown.Divider />
-                  </NavDropdown>
-                  ) : (null)
-                  }
                   <NavDropdown title={<span style={{ color: "gray" }}>Profil</span>} id="navbarScrollingDropdown">
                   <NavDropdown.Item as={NavLink} to="/Profil" >Moje rezerwacje</NavDropdown.Item>
                   <NavDropdown.Item as={NavLink} to="/BuyTokens" >Wykup kursy</NavDropdown.Item>

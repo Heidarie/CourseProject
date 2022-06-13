@@ -9,7 +9,6 @@ import { Row,Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import NotAuthorized from './components/NotAuthorized';
 import Home from './components/home/Home';
-import Payment from './components/Payment';
 import Profil from './components/Profil/Profil';
 import Rent from './components/rent/rent';
 import AddCar from './components/addCar/AddCar';
@@ -34,7 +33,6 @@ function App() {
           <Route path="/Register" element={<Register history={history}/>}/>
           <Route path="/ChangePassword" element={<ChangePassword history={history}/>}/>
           <Route path="/NotAuthorized/" element={<NotAuthorized/>} />         
-          <Route path="/Payment/" element={<Payment history={history}/>} />
           <Route path="/Profil/" element={<Profil history={history}/>} />
           <Route path="/Rent/" element={<Rent history={history}/>} />
           <Route path="/AddCar/" element={<AddCar history={history}/>} />
@@ -42,13 +40,16 @@ function App() {
           <Route path="/AddInstructor/" element={<AddInstructor history={history}/>} />
           <Route path="/InstructorTrainings/" element={<InstructorTrainings history={history}/>} />
           <Route path="/BuyTokens/" element={<BuyTokens history={history}/>} />
+          
     </Routes>
+    
     </div>
+    <Footer/>
     </Col>
     </Row>
    
     </div>
-    <Footer/>
+    
     </>
   );
 }
