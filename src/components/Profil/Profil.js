@@ -99,7 +99,7 @@ const Profil = () => {
                         },
                         content: {
                             background: 'white',
-                            width: '50rem',
+                            width: '33rem',
                             maxWidth: 'calc(100vw - 10rem)',
                             minHeight: '400px',
                             maxHeight: 'calc(100vh - 2rem)',
@@ -112,7 +112,9 @@ const Profil = () => {
                     contentLabel="My dialog"
                 >
                     <div className="modal-body">
-                    <iframe width="1267" height="722" src={"https://www.youtube.com/embed/"+yt} title="YouTube video player"  frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <div  className="embed-responsive embed-responsive-16by9">
+                            <iframe height="350" width="450" className="embed-responsive-item" src={"https://www.youtube.com/embed/"+yt} title="YouTube video player"  frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                      </div>
                        
                     </div>
                 </Modal>
