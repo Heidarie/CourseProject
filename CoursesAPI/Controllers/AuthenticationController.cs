@@ -274,7 +274,7 @@ namespace CoursesAPI.Controllers
 
         private bool IsAdult(long pesel)
         {
-            int yearOfBirth = (int)pesel / 1000000;
+            int yearOfBirth = (int)(pesel / 1000000);
             return (DateTime.Now.Year % 100 )- yearOfBirth >= 18;
         }
     }
