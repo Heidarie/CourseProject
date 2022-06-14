@@ -6,7 +6,7 @@ import Modal from "react-modal";
 import 'react-modern-calendar-datepicker/lib/DatePicker.css';
 import CalendarPicker from '../calendar/Calendar';
 import CalendarPicker2 from '../calendar/Calendar2';
-import {CarList,getBrands,getCalendar, makeReservation,createTrainingReservation,CarFilter,getLocalAccessToken} from "../../api/Api"
+import {CarList,getBrands,getCalendar, makeReservation,createTrainingReservation,CarFilter,getLocalAccessToken,Tokens} from "../../api/Api"
 
 class Rent extends Component {
     constructor(props) {
@@ -143,6 +143,7 @@ class Rent extends Component {
 
             })
         }
+        
         this.setState({
             isOpen:!this.state.isOpen
         })
@@ -182,6 +183,13 @@ class Rent extends Component {
                  console.log(err)
                
               })
+              
+                Tokens().then(res=>{
+                    console.log(res.data)
+                    if(res.data<1){
+                        this.props.history("/BuyTokens", { replace: true })
+                    }
+                })
           }
     }
 

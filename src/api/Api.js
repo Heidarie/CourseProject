@@ -319,91 +319,6 @@ export async function getCalendarTraining(data){
 
 
 
-
-
-export async function getQuizGroup(){
-   
-    return new Promise((resolve,reject)=>
-     api.get("Quiz")
-        .then(res => {
-            
-           console.log(res)
-           resolve(res)
-        })
-        .catch(err => {
-            console.log(err);
-            reject(err)
-        }))
-}
-
-export async function addQuiz(data){
-    return new Promise((resolve,reject)=>
-     api.post("Quiz/create-quiz-group",data)
-        .then(res => {
-            
-           console.log(res)
-           resolve(res)
-        })
-        .catch(err => {
-            console.log(err);
-            reject(err)
-        }))
-}
-export async function getQuiz(data){
-    return new Promise((resolve,reject)=>
-     api.get("Quiz/"+data)
-        .then(res => {
-            
-           console.log(res)
-           resolve(res)
-        })
-        .catch(err => {
-            console.log(err);
-            reject(err)
-        }))
-}
-
-export async function sendResults(data){
-    return new Promise((resolve,reject)=>
-     api.post("Quiz/validate-answers/",data)
-        .then(res => {
-            
-           console.log(res)
-           resolve(res)
-        })
-        .catch(err => {
-            console.log(err);
-            reject(err)
-        }))
-}
-export async function deleteFlashcards(data){
-    return new Promise((resolve,reject)=>
-     api.delete("FlashcardsGroups/"+data)
-        .then(res => {
-            
-           console.log(res)
-           resolve(res)
-        })
-        .catch(err => {
-            console.log(err);
-            reject(err)
-        }))
-}
-
-export async function deleteQuiz(data){
-    return new Promise((resolve,reject)=>
-     api.delete("Quiz/"+data)
-        .then(res => {
-            
-           console.log(res)
-           resolve(res)
-        })
-        .catch(err => {
-            console.log(err);
-            reject(err)
-        }))
-}
-
 export async function getTrainings(){
     return new Promise((resolve,reject)=>
      api.get("Training")
@@ -432,19 +347,6 @@ export async function addTraining(data){
         }))
 }
 
-export async function deleteTraining(data){
-    return new Promise((resolve,reject)=>
-     api.delete("Training/"+data)
-        .then(res => {
-            
-           console.log(res)
-           resolve(res)
-        })
-        .catch(err => {
-            console.log(err);
-            reject(err)
-        }))
-}
 
 export async function getEvents(data){
     return new Promise((resolve,reject)=>
@@ -501,19 +403,7 @@ export async function signO(data){
         }))
 }
 
-export async function BuyPremium(data){
-    return new Promise((resolve,reject)=>
-     api.post("Authentication/premium-account/",Number(data))
-        .then(res => {
-            
-           console.log(res)
-           resolve(res)
-        })
-        .catch(err => {
-            console.log(err);
-            reject(err)
-        }))
-}
+
 
 export async function getProfil(){
     return new Promise((resolve,reject)=>
@@ -558,6 +448,19 @@ export async function getList(){
 export async function delUser(data){
     return new Promise((resolve,reject)=>
      api.post("User/delete-user/"+data)
+        .then(res => {
+            
+           console.log(res)
+           resolve(res)
+        })
+        .catch(err => {
+            console.log(err);
+            reject(err)
+        }))
+}
+export async function Tokens(){
+    return new Promise((resolve,reject)=>
+     api.get("User/get-tokens/")
         .then(res => {
             
            console.log(res)
