@@ -9,7 +9,6 @@ namespace CoursesAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
     public class CarController : BaseController
     {
         [HttpGet]
