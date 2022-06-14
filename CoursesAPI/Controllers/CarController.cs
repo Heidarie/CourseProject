@@ -9,6 +9,7 @@ namespace CoursesAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
     public class CarController : BaseController
     {
         [HttpGet]
@@ -48,7 +49,7 @@ namespace CoursesAPI.Controllers
             string pattern = @"^(?:https?\:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v\=))([\w-]{10,12})(?:$|\&|\?\#).*";
             Regex regex = new Regex(pattern);
             Match match = regex.Match(ytUrl);
-            return match.ToString();
+            return match.Groups[1].ToString();
         }
     }
 }
