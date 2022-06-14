@@ -80,7 +80,7 @@ class InstructorTrainings extends Component {
                     {this.state.reservationsRequest.length === 0 ? (<h3 style={{ textAlign: "center" }}> Brak rezerwacji do zaakceptowania</h3>) : (<></>)}
                     {this.state.reservationsRequest.map((x) => {
                         return (
-                            <div className="Cars row d-flex justify-content-center py-5">
+                            <div className="Cars row d-flex justify-content-center">
                                 <div className="row car">
                                     <div className="col-md-2">
                                         <div className="img-responsive">
@@ -116,7 +116,7 @@ class InstructorTrainings extends Component {
                     })}
                     <h1 style={{ textAlign: "center" }}> Terminarz</h1>
                     {this.state.schedule.length === 0 ? (<h3 style={{ textAlign: "center" }}> Brak zaplanowanych kursów</h3>) : (<></>)}
-                    <div className="Cars row d-flex justify-content-center py-5">
+                    <div className="Cars row d-flex justify-content-center py-2">
                         {this.state.schedule.map((x) => {
                             return (
                                 <div className="row car">
