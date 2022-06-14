@@ -145,7 +145,7 @@ namespace CoursesAPI
         public bool AddTokens(string userMail,int tokenNumber)
         {
             User? user = this.GetUser(userMail);
-            user.RemainingTrainingNumber = tokenNumber;
+            user.RemainingTrainingNumber += tokenNumber;
             return this.SaveToDatabase();
         }
 
@@ -242,13 +242,13 @@ namespace CoursesAPI
         public IEnumerable<CarModel> FilterCars(FilterModel filter)
         {
             List<Car> cars = this.GetCars();
-            if (filter.Brand != "")
+            if (filter.Brand != string.Empty)
                 cars = cars.Where(x => x.Brand == filter.Brand).ToList();
-            if (filter.Gearbox != "")
+            if (filter.Gearbox != string.Empty)
                 cars = cars.Where(x => x.Gearbox == filter.Gearbox).ToList();
-            if (filter.Drive != "")
+            if (filter.Drive != string.Empty)
                 cars = cars.Where(x => x.Drive == filter.Drive).ToList();
-            if (filter.FuelType != "")
+            if (filter.FuelType != string.Empty)
                 cars = cars.Where(x => x.FuelType == filter.FuelType).ToList();
             return cars.Select(x => new CarModel(x)).ToList();
         }

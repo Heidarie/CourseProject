@@ -93,7 +93,8 @@ namespace CoursesAPI.Controllers
             var userExists = await _userManager.FindByEmailAsync(model.Email);
             if (userExists != null)
                 return StatusCode(StatusCodes.Status403Forbidden, new Response { Status = "Error", Message = "Taki użytkownik już istnieje!" });
-
+            if(!this.IsAdult(model.PeselNumber))
+                return StatusCode(StatusCodes.Status403Forbidden, new Response { Status = "Error", Message = "Nie jesteś pełnoletni! Poczekaj aż skończysz 18 rok życia." });
 
             User user = new()
             {
@@ -269,6 +270,12 @@ namespace CoursesAPI.Controllers
 
             return principal;
 
+        }
+
+        private bool IsAdult(long pesel)
+        {
+            int yearOfBirth = (int)pesel / 1000000;
+            return (DateTime.Now.Year % 100 )- yearOfBirth >= 18;
         }
     }
 }
